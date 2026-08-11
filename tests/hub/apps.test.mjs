@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { PassThrough } from 'node:stream';
 import { pathToFileURL } from 'node:url';
 import { pass, fail, ROOT } from '../helpers.mjs';
 
@@ -38,15 +39,27 @@ async function request(pathname) {
       ? url.pathname.startsWith(candidate.pattern.slice(0, -1))
       : url.pathname === candidate.pattern));
   const chunks = [];
-  const response = {
-    status: 200,
-    headersSent: false,
-    writeHead(status) { this.status = status; this.headersSent = true; },
-    end(chunk = '') { chunks.push(Buffer.from(chunk)); },
+  const response = new PassThrough();
+  response.status = 200;
+  response.headers = new Headers();
+  response.writeHead = function writeHead(status, responseHeaders = {}) {
+    this.status = status;
+    this.headers = new Headers(responseHeaders);
   };
+  response.on('data', chunk => chunks.push(Buffer.from(chunk)));
+  const completed = new Promise((resolve, reject) => {
+    response.once('end', resolve);
+    response.once('error', reject);
+  });
   await entry.handler({}, response, url);
+  await completed;
   const body = Buffer.concat(chunks).toString('utf8');
-  return { status: response.status, text: async () => body, json: async () => JSON.parse(body) };
+  return {
+    status: response.status,
+    headers: response.headers,
+    text: async () => body,
+    json: async () => JSON.parse(body),
+  };
 }
 
 try {
@@ -77,8 +90,9 @@ try {
   else fail(`unknown application status=${response.status}`);
 
   response = await request('/files/resume/1');
-  if (response.status === 404) pass('missing resume returns 404');
-  else fail(`missing resume status=${response.status}`);
+  if (response.status === 200 && response.headers.get('content-type') === 'application/pdf') {
+    pass('uploaded resume returns PDF');
+  } else fail(`resume status=${response.status} content-type=${response.headers.get('content-type')}`);
 } finally {
   if (base) await new Promise(resolve => srv.close(resolve));
 }

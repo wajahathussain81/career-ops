@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
-import { basename, join, resolve } from 'path';
+import { basename, join, relative, resolve } from 'path';
 import yaml from 'js-yaml';
 import {
   isHeaderRow,
@@ -196,6 +196,41 @@ function findJdFile(root, paddedNum) {
   return filename ? join(dir, filename) : null;
 }
 
+function resolveResume(root, appNum, pdf) {
+  if (pdf) {
+    const indexedPath = resolve(root, pdf.pdf);
+    if (existsSync(indexedPath)) {
+      return { path: pdf.pdf, exists: true, source: 'pdf-index' };
+    }
+  }
+
+  const uploadRoot = resolve(root, 'output', 'upload');
+  if (existsSync(uploadRoot)) {
+    const suffix = `-${appNum}`;
+    const uploadDirs = readdirSync(uploadRoot, { withFileTypes: true })
+      .filter(entry => entry.isDirectory() && entry.name.endsWith(suffix))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    for (const uploadDir of uploadDirs) {
+      const dirPath = join(uploadRoot, uploadDir.name);
+      const resume = readdirSync(dirPath, { withFileTypes: true })
+        .filter(entry => entry.isFile()
+          && /Resume.*\.pdf$/i.test(entry.name)
+          && !/Cover[- ]Letter/i.test(entry.name))
+        .sort((a, b) => a.name.localeCompare(b.name))[0];
+      if (resume) {
+        return {
+          path: relative(root, join(dirPath, resume.name)),
+          exists: true,
+          source: 'upload',
+        };
+      }
+    }
+  }
+
+  return pdf ? { path: pdf.pdf, exists: false } : null;
+}
+
 export function getApplication(root, num) {
   const appNum = Number(num);
   const app = loadApplications(root).find(item => item.num === appNum);
@@ -217,7 +252,7 @@ export function getApplication(root, num) {
     timeline: loadStatusLog(root)
       .filter(row => row.num === appNum)
       .sort((a, b) => a.date.localeCompare(b.date)),
-    resume: pdf ? { path: pdf.pdf, exists: existsSync(join(root, pdf.pdf)) } : null,
+    resume: resolveResume(root, appNum, pdf),
     contacts: loadContacts(root).filter(contact => contact.tracker === appNum),
     followUps: loadFollowUps(root).filter(followUp => followUp.appNum === appNum),
     reportFile,

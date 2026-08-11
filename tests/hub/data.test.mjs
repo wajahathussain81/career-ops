@@ -25,8 +25,20 @@ if (joined.reportFile && joined.reportFile.endsWith('001-acme-robotics-2026-08-0
 else fail(`reportFile=${joined.reportFile}`);
 if (joined.prep && joined.prep.slug === 'acme-firmware-1') pass('join: prep dir matched by -num suffix');
 else fail(`prep=${JSON.stringify(joined.prep)}`);
-if (joined.resume && joined.resume.exists === false) pass('join: resume path from pdf-index, exists=false in fixture');
+if (joined.resume?.exists === true && joined.resume.source === 'upload'
+  && joined.resume.path.includes('ACME-1')) pass('join: missing pdf-index file falls back to upload resume');
 else fail(`resume=${JSON.stringify(joined.resume)}`);
+if (!joined.resume.path.includes('OTHER-11')) pass('join: upload directory suffix matches tracker number exactly');
+else fail(`resume incorrectly matched tracker 11 directory: ${JSON.stringify(joined.resume)}`);
+
+const unsyncedResume = d.getApplication(FIX, 2)?.resume;
+if (unsyncedResume?.path === 'output/cv-beta.pdf' && unsyncedResume.exists === false) {
+  pass('join: missing pdf-index file remains as an unsynced fallback');
+} else fail(`resume=${JSON.stringify(unsyncedResume)}`);
+
+const noResume = d.getApplication(FIX, 3);
+if (noResume?.resume === null) pass('join: application without pdf-index or upload resume stays null');
+else fail(`resume=${JSON.stringify(noResume?.resume)}`);
 
 const fu = d.loadFollowUps(FIX);
 if (fu.length === 1 && fu[0].appNum === 2) pass('follow-ups parsed'); else fail(`fu=${JSON.stringify(fu)}`);
