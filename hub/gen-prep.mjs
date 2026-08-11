@@ -117,10 +117,10 @@ export function renderPrepPage(page) {
   const mastheadFacts = `<ul class="facts">${facts.map(([key, value]) =>
     `<li><span class="fk">${field(key)}</span><span class="fv">${key === 'Countdown' ? value : field(value)}</span></li>`
   ).join('')}</ul>`;
-  const sections = page.sections.map((section, index) => `<details class="sec"${index === 0 ? ' open' : ''}>
-  <summary><span class="sec-n">${String(index + 1).padStart(2, '0')}</span><span class="sec-t">${field(sectionTitle(section))}</span><span class="chev">›</span></summary>
+  const sections = page.sections.map((section, index) => `<section class="sec">
+  <header class="sec-head"><span class="sec-n">${String(index + 1).padStart(2, '0')}</span><h2 class="sec-t">${field(sectionTitle(section))}</h2></header>
   <div class="sec-body">${sectionBody(section)}</div>
-</details>`).join('\n');
+</section>`).join('\n');
 
   return `<header class="head">
   <p class="eyebrow">${field(meta.round)} · Tracker #${field(meta.tracker)}</p>

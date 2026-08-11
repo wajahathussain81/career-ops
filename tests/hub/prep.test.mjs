@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
+import { PassThrough } from 'node:stream';
 import { pathToFileURL } from 'node:url';
 import { pass, fail, ROOT } from '../helpers.mjs';
 
@@ -15,9 +16,10 @@ if (fragment.includes('data-dt="2030-01-15T11:00:00-07:00"')) {
   pass('prep fragment includes the interview datetime');
 } else fail('prep fragment missing interview datetime');
 
-if (fragment.includes('class="say"') && fragment.includes('flag proof')
+if (fragment.includes('class="sec"') && !fragment.includes('<details')
+  && fragment.includes('class="say"') && fragment.includes('flag proof')
   && fragment.includes('<strong>CI pipeline</strong>') && fragment.includes('01')) {
-  pass('prep fragment renders artifact sections and markdown');
+  pass('prep fragment renders flat artifact sections and markdown');
 } else fail(`prep fragment missing required markup: ${fragment}`);
 
 const srv = createServer({ root: FIX, token: 'test-token' });
@@ -41,15 +43,28 @@ async function request(pathname) {
       ? url.pathname.startsWith(candidate.pattern.slice(0, -1))
       : url.pathname === candidate.pattern));
   const chunks = [];
-  const response = {
-    status: 200,
-    headersSent: false,
-    writeHead(status) { this.status = status; this.headersSent = true; },
-    end(chunk = '') { chunks.push(Buffer.from(chunk)); },
+  const response = new PassThrough();
+  response.status = 200;
+  response.responseHeaders = {};
+  response.on('data', chunk => chunks.push(Buffer.from(chunk)));
+  response.writeHead = function writeHead(status, responseHeaders = {}) {
+    this.status = status;
+    this.responseHeaders = responseHeaders;
+    this.headersSent = true;
   };
+  const finished = new Promise((resolve, reject) => {
+    response.once('finish', resolve);
+    response.once('error', reject);
+  });
   await entry.handler({}, response, url);
+  if (!response.writableFinished) await finished;
   const body = Buffer.concat(chunks).toString('utf8');
-  return { status: response.status, text: async () => body };
+  return {
+    status: response.status,
+    headers: { get: name => Object.entries(response.responseHeaders)
+      .find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null },
+    text: async () => body,
+  };
 }
 
 try {
@@ -60,8 +75,23 @@ try {
   } else fail(`prep index status=${response.status}`);
 
   response = await request('/prep/acme-firmware-1');
-  if (response.status === 200) pass('known prep page returns 200');
-  else fail(`known prep page status=${response.status}`);
+  html = await response.text();
+  const contentTabs = [...html.matchAll(/<button class="tab"[^>]*>([^<]+)<\/button>/g)]
+    .map(match => match[1]);
+  if (response.status === 200
+    && JSON.stringify(contentTabs) === JSON.stringify(['Prep', 'Job description', 'Resume'])
+    && html.includes('<h1>Acme JD</h1>')) {
+    pass('known prep page renders prep, JD, and resume tabs');
+  } else fail(`known prep page missing content tabs or JD: status=${response.status}`);
+
+  response = await request('/files/prep-resume/acme-firmware-1');
+  if (response.status === 200 && response.headers.get('content-type') === 'application/pdf') {
+    pass('prep resume route streams the interview resume PDF');
+  } else fail(`prep resume status=${response.status} content-type=${response.headers.get('content-type')}`);
+
+  response = await request('/files/prep-resume/missing');
+  if (response.status === 404) pass('missing prep resume returns 404');
+  else fail(`missing prep resume status=${response.status}`);
 
   response = await request('/prep/missing');
   if (response.status === 404) pass('unknown prep page returns 404');

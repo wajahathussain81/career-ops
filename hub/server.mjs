@@ -1,8 +1,8 @@
 import { createServer as createHttpServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 import { execFile } from 'node:child_process';
-import { createReadStream } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { createReadStream, readdirSync, statSync } from 'node:fs';
+import { readFile, stat } from 'node:fs/promises';
 import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { cookieValue, isAuthed, setAuthCookie } from './lib/auth.mjs';
@@ -34,6 +34,9 @@ const HUB_DIR = dirname(fileURLToPath(import.meta.url));
 const ASSETS_DIR = join(HUB_DIR, 'assets');
 const REPO_ROOT = resolve(HUB_DIR, '..');
 const BODY_LIMIT = 64 * 1024;
+const assetVersion = Math.floor(Math.max(0, ...readdirSync(ASSETS_DIR, { withFileTypes: true })
+  .filter(entry => entry.isFile())
+  .map(entry => statSync(join(ASSETS_DIR, entry.name)).mtimeMs))).toString(36);
 
 const CONTENT_TYPES = new Map([
   ['.css', 'text/css; charset=utf-8'],
@@ -48,8 +51,10 @@ const CONTENT_TYPES = new Map([
   ['.ico', 'image/x-icon'],
 ]);
 
-function send(res, status, body, contentType = 'text/html; charset=utf-8') {
-  res.writeHead(status, { 'Content-Type': contentType });
+function send(res, status, body, contentType = 'text/html; charset=utf-8', headers = {}) {
+  const responseHeaders = { 'Content-Type': contentType, ...headers };
+  if (contentType.startsWith('text/html')) responseHeaders['Cache-Control'] = 'no-store';
+  res.writeHead(status, responseHeaders);
   res.end(body);
 }
 
@@ -89,7 +94,7 @@ function tokenMatches(actual, expected) {
 }
 
 function renderPage(options) {
-  return layout({ ...options, banner: getConflicts() });
+  return layout({ ...options, assetVersion, banner: getConflicts() });
 }
 
 function errorPage(status, message) {
@@ -142,10 +147,25 @@ function applicationsData(root, searchParams) {
   return { rows, total: rows.length };
 }
 
+function prepEntry(root, entry) {
+  const page = loadPrepPage(root, entry.slug);
+  const application = page ? getApplication(root, page.meta?.tracker) : null;
+  return {
+    slug: entry.slug,
+    page,
+    jdFile: application?.jdFile ?? entry.jdPath,
+    resumeUrl: entry.resumePath
+      ? `/files/prep-resume/${encodeURIComponent(entry.slug)}`
+      : application?.resume?.exists
+        ? `/files/resume/${encodeURIComponent(page.meta.tracker)}`
+        : null,
+  };
+}
+
 function prepEntries(root) {
   return listPrepDirs(root)
     .filter(entry => entry.hasPageYml)
-    .map(entry => ({ slug: entry.slug, page: loadPrepPage(root, entry.slug) }))
+    .map(entry => prepEntry(root, entry))
     .filter(entry => entry.page && Number.isFinite(Date.parse(entry.page.meta?.datetime)))
     .sort((a, b) => Date.parse(a.page.meta.datetime) - Date.parse(b.page.meta.datetime));
 }
@@ -239,8 +259,19 @@ async function serveAsset(_app, req, res, url) {
   }
 
   try {
-    const contents = await readFile(assetPath);
-    send(res, 200, contents, CONTENT_TYPES.get(extname(assetPath).toLowerCase()) || 'application/octet-stream');
+    const [contents, fileStat] = await Promise.all([readFile(assetPath), stat(assetPath)]);
+    send(
+      res,
+      200,
+      contents,
+      CONTENT_TYPES.get(extname(assetPath).toLowerCase()) || 'application/octet-stream',
+      {
+        'Cache-Control': url.searchParams.has('v')
+          ? 'public, max-age=31536000, immutable'
+          : 'no-cache',
+        'Last-Modified': fileStat.mtime.toUTCString(),
+      },
+    );
   } catch (error) {
     if (error?.code === 'ENOENT' || error?.code === 'EISDIR') {
       send(res, 404, 'Not found', 'text/plain; charset=utf-8');
@@ -390,15 +421,17 @@ export function route(app) {
         } catch {
           slug = '';
         }
-        const page = loadPrepPage(app.root, slug);
-        if (!page) {
+        const prepDir = listPrepDirs(app.root)
+          .find(item => item.hasPageYml && item.slug === slug);
+        const entry = prepDir ? prepEntry(app.root, prepDir) : null;
+        if (!entry) {
           send(res, 404, errorPage(404, 'The requested prep page does not exist.'));
           return;
         }
         send(res, 200, renderPage({
-          title: `${page.meta.company} — ${page.meta.role}`,
+          title: `${entry.page.meta.company} — ${entry.page.meta.role}`,
           active: '/prep',
-          body: renderPrepSingle(page),
+          body: renderPrepSingle(entry),
         }));
       },
     },
@@ -456,6 +489,27 @@ export function route(app) {
       handler: async (_req, res) => {
         app.chatRun?.kill();
         sendJson(res, { ok: true });
+      },
+    },
+    {
+      method: 'GET',
+      pattern: '/files/prep-resume/*',
+      handler: async (_req, res, url) => {
+        let slug;
+        try {
+          slug = decodeURIComponent(url.pathname.slice('/files/prep-resume/'.length));
+        } catch {
+          slug = '';
+        }
+        const prep = listPrepDirs(app.root).find(entry => entry.slug === slug);
+        if (!prep?.resumePath) {
+          send(res, 404, errorPage(404, 'The requested resume is not available.'));
+          return;
+        }
+        res.writeHead(200, { 'Content-Type': 'application/pdf' });
+        const stream = createReadStream(prep.resumePath);
+        stream.on('error', () => res.destroy());
+        stream.pipe(res);
       },
     },
     {

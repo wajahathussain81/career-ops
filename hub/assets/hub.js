@@ -58,9 +58,12 @@ function initTabs() {
   if (!tabs.length) return;
   for (const tab of tabs) {
     tab.addEventListener('click', () => {
-      for (const item of tabs) item.setAttribute('aria-selected', String(item === tab));
-      for (const pane of document.querySelectorAll('[data-tab-pane]')) {
-        pane.hidden = pane.id !== tab.dataset.tabTarget;
+      const tablist = tab.closest('[role="tablist"]');
+      const relatedTabs = tablist?.querySelectorAll('[data-tab-target]') || [tab];
+      for (const item of relatedTabs) {
+        item.setAttribute('aria-selected', String(item === tab));
+        const pane = document.getElementById(item.dataset.tabTarget);
+        if (pane) pane.hidden = item !== tab;
       }
       const countdown = tab.closest('.bar')?.querySelector('[data-tab-countdown]');
       if (countdown && tab.dataset.countdownDt) {
@@ -71,12 +74,39 @@ function initTabs() {
   }
 }
 
+const INTERVIEW_WINDOW_MS = 72 * 60 * 60 * 1000;
+
+function renderCountdownProgress(element, remaining) {
+  const elapsedShare = Math.min(1, Math.max(0, 1 - (remaining / INTERVIEW_WINDOW_MS)));
+  const percentage = Math.round(elapsedShare * 100);
+  const track = document.createElement('span');
+  track.className = 'countdown-progress';
+  track.setAttribute('role', 'progressbar');
+  track.setAttribute('aria-label', '72 hour interview window elapsed');
+  track.setAttribute('aria-valuemin', '0');
+  track.setAttribute('aria-valuemax', '100');
+  track.setAttribute('aria-valuenow', String(percentage));
+  const fill = document.createElement('span');
+  fill.className = 'countdown-progress-fill';
+  fill.style.width = `${elapsedShare * 100}%`;
+  track.append(fill);
+  element.append(track);
+}
+
 function updateCountdown(element) {
   const target = Date.parse(element.dataset.dt || '');
   if (!Number.isFinite(target)) return;
   const remaining = target - Date.now();
   if (remaining <= 0) {
-    element.textContent = 'started';
+    if (element.classList.contains('countdown-hero')) {
+      const prefix = document.createElement('span');
+      prefix.className = 'countdown-prefix';
+      prefix.textContent = 'interview status';
+      const started = document.createElement('b');
+      started.textContent = 'started';
+      element.replaceChildren(prefix, started);
+      renderCountdownProgress(element, 0);
+    } else element.textContent = 'started';
     element.setAttribute('aria-label', 'started');
     return;
   }
@@ -105,6 +135,7 @@ function updateCountdown(element) {
       segments.append(digits, label);
     }
     element.replaceChildren(prefix, segments);
+    renderCountdownProgress(element, remaining);
   } else {
     const segments = document.createElement('span');
     segments.className = 'countdown-segments';

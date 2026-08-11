@@ -28,7 +28,7 @@ const NAV_ITEMS = [
   ['chat', 'Chat', '/chat'],
 ];
 
-export function layout({ title = 'Career Ops', active = '', body = '', banner = '' } = {}) {
+export function layout({ title = 'Career Ops', active = '', body = '', banner = '', assetVersion = '0' } = {}) {
   const links = NAV_ITEMS.map(([key, label, href]) => {
     const current = active === href || active === key ? ' aria-current="page"' : '';
     return `<a href="${href}"${current}>${label}</a>`;
@@ -44,12 +44,12 @@ export function layout({ title = 'Career Ops', active = '', body = '', banner = 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} · Career Ops</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23161A18'/%3E%3Cpath d='M6 17h6l3-7 4 13 3-6h4' fill='none' stroke='%236FCFA3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link href="/assets/hub.css" rel="stylesheet">
-  <script src="/assets/hub.js" defer></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23070A0D'/%3E%3Cpath d='M6 17h6l3-7 4 13 3-6h4' fill='none' stroke='%2346E0A0' stroke-width='2.5' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <link href="/assets/hub.css?v=${assetVersion}" rel="stylesheet">
+  <script src="/assets/hub.js?v=${assetVersion}" defer></script>
 </head>
 <body>
-  <nav class="nav" aria-label="Primary"><div class="nav-inner">${links}</div></nav>
+  <nav class="nav" aria-label="Primary"><div class="nav-inner"><a class="nav-brand" href="/" aria-label="Career Ops overview"><span aria-hidden="true">▮</span> CAREER OPS</a><div class="nav-links">${links}</div></div></nav>
   <div id="banner">${bannerContent}</div>
   ${body}
 </body>

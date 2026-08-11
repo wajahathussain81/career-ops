@@ -15,16 +15,19 @@ export function login({ error = '' } = {}) {
   <script src="/assets/hub.js" defer></script>
 </head>
 <body class="login-page">
-  <main class="login-card">
-    <p class="eyebrow">Career Ops Hub</p>
-    <h1>Sign in</h1>
-    ${notice}
-    <form method="post" action="/login">
-      <label for="token">Hub token</label>
-      <input id="token" name="token" type="password" required autofocus autocomplete="current-password">
-      <button type="submit">Continue</button>
-    </form>
-  </main>
+  <div class="login-shell">
+    <div class="login-wordmark"><span aria-hidden="true">▮</span> CAREER OPS</div>
+    <main class="login-card">
+      <p class="eyebrow">Career Ops Hub</p>
+      <h1>Sign in</h1>
+      ${notice}
+      <form method="post" action="/login">
+        <label for="token">Hub token</label>
+        <input id="token" name="token" type="password" required autofocus autocomplete="current-password">
+        <button type="submit">Continue</button>
+      </form>
+    </main>
+  </div>
 </body>
 </html>`;
 }
