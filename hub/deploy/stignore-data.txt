@@ -1,0 +1,6 @@
+*.lock
+(?d).DS_Store
+cache
+applications.db
+parser-output
+*.sync-conflict*

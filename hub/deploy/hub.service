@@ -1,0 +1,16 @@
+[Unit]
+Description=career-ops hub
+After=network-online.target
+
+[Service]
+Type=simple
+# Replace this placeholder with the account that owns /opt/career-ops, then uncomment it.
+# User=<service-user>
+WorkingDirectory=/opt/career-ops
+EnvironmentFile=/etc/career-ops/hub.env
+ExecStart=/usr/bin/node hub/server.mjs
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
