@@ -37,6 +37,9 @@ export function layout({ title = 'Career Ops', active = '', body = '', banner = 
     ? `<div class="flag forbid"><div class="flag-t">Sync conflicts detected</div><ul>${banner
       .map(file => `<li>${escapeHtml(file)}</li>`).join('')}</ul></div>`
     : banner;
+  const chatScript = active === '/chat' || active === 'chat'
+    ? `\n  <script src="/assets/ansi.js?v=${assetVersion}" defer></script>`
+    : '';
 
   return `<!doctype html>
 <html lang="en">
@@ -46,6 +49,7 @@ export function layout({ title = 'Career Ops', active = '', body = '', banner = 
   <title>${escapeHtml(title)} · Career Ops</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23070A0D'/%3E%3Cpath d='M6 17h6l3-7 4 13 3-6h4' fill='none' stroke='%2346E0A0' stroke-width='2.5' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
   <link href="/assets/hub.css?v=${assetVersion}" rel="stylesheet">
+  ${chatScript}
   <script src="/assets/hub.js?v=${assetVersion}" defer></script>
 </head>
 <body>

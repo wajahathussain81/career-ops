@@ -1,26 +1,35 @@
 export function renderChat() {
-  return `<main class="hub-main" data-chat-console>
-  <p class="eyebrow">Agent console</p>
-  <h1>Chat</h1>
-  <p class="flag reasoned"><span class="flag-t">Guardrails</span>Runs are serialized with tracker writes and cannot submit, send, apply, or run git.</p>
-  <section class="chat-panel" aria-label="Agent transcript">
-    <pre id="chat-transcript" class="say chat-transcript" aria-live="polite" data-empty-state>No run yet — output will stream here.</pre>
-  </section>
-  <form id="chat-form" class="chat-form">
-    <fieldset class="worker-toggle">
-      <legend>Worker</legend>
-      <div class="worker-segments">
-        <label class="worker-choice"><input type="radio" name="worker" value="codex" checked><span>Codex</span></label>
-        <label class="worker-choice"><input type="radio" name="worker" value="claude"><span>Claude</span></label>
+  return `<main class="hub-main chat-page" data-chat-console>
+  <section class="terminal-window" aria-label="Agent terminal">
+    <header class="terminal-statusbar">
+      <fieldset class="worker-toggle" aria-label="Worker">
+        <legend class="sr-only">Worker</legend>
+        <div class="worker-segments">
+          <label class="worker-choice"><input type="radio" name="worker" value="codex" form="chat-form" checked><span>codex</span></label>
+          <label class="worker-choice"><input type="radio" name="worker" value="claude" form="chat-form"><span>claude</span></label>
+        </div>
+      </fieldset>
+      <div class="terminal-run-meta" role="status" aria-live="polite">
+        <span class="terminal-run-state"><span class="terminal-state-dot" aria-hidden="true">●</span><span id="chat-state">idle</span></span>
+        <time id="chat-elapsed" datetime="PT0S" hidden>00:00</time>
+        <button id="chat-kill" type="button" disabled aria-label="Interrupt active run">^C</button>
       </div>
-    </fieldset>
-    <label class="micro-label" for="chat-prompt">Prompt</label>
-    <textarea id="chat-prompt" name="prompt" rows="8" required></textarea>
-    <p class="chat-actions">
-      <button id="chat-send" type="submit">Send</button>
-      <button id="chat-kill" type="button" disabled>Kill</button>
-    </p>
-    <p id="chat-note" class="flag reasoned" hidden></p>
-  </form>
+    </header>
+
+    <div class="terminal-scrollback" id="chat-scrollback">
+      <div id="chat-transcript" class="chat-transcript" role="log" aria-live="polite" aria-relevant="additions text"></div>
+      <button id="chat-new-output" class="terminal-new-output" type="button" hidden>▼ new output</button>
+    </div>
+
+    <form id="chat-form" class="terminal-prompt-row" autocomplete="off">
+      <span class="terminal-prompt-glyph" aria-hidden="true">❯</span>
+      <label class="sr-only" for="chat-prompt">Agent prompt</label>
+      <span class="terminal-prompt-editor">
+        <textarea id="chat-prompt" name="prompt" rows="1" placeholder=" " required spellcheck="true" aria-label="Agent prompt"></textarea>
+        <span class="terminal-block-cursor" aria-hidden="true"></span>
+      </span>
+      <button class="sr-only" type="submit" tabindex="-1">Run</button>
+    </form>
+  </section>
 </main>`;
 }

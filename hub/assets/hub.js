@@ -227,23 +227,112 @@ function initChat() {
 
   const form = consoleElement.querySelector('#chat-form');
   const transcript = consoleElement.querySelector('#chat-transcript');
-  const send = consoleElement.querySelector('#chat-send');
+  const scrollback = transcript;
+  const promptInput = consoleElement.querySelector('#chat-prompt');
   const kill = consoleElement.querySelector('#chat-kill');
-  const note = consoleElement.querySelector('#chat-note');
-  if (!form || !transcript || !send || !kill || !note) return null;
+  const stateLabel = consoleElement.querySelector('#chat-state');
+  const elapsed = consoleElement.querySelector('#chat-elapsed');
+  const newOutput = consoleElement.querySelector('#chat-new-output');
+  const workers = [...consoleElement.querySelectorAll('[name="worker"]')];
+  if (!form || !transcript || !promptInput || !kill
+    || !stateLabel || !elapsed || !newOutput || !workers.length) return null;
 
-  const setBusy = busy => {
-    send.disabled = busy;
-    kill.disabled = !busy;
+  const HISTORY_KEY = 'hub-chat-history';
+  let history = [];
+  try {
+    const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    if (Array.isArray(stored)) history = stored.filter(item => typeof item === 'string').slice(-50);
+  } catch {
+    history = [];
+  }
+  let historyIndex = history.length;
+  let historyDraft = '';
+  let busy = false;
+  let startedAt = 0;
+  let elapsedTimer;
+  let followsOutput = true;
+
+  const formatElapsed = (milliseconds) => {
+    const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+    const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${minutes}:${seconds}`;
   };
-  const showNote = message => {
-    note.textContent = message;
-    note.hidden = !message;
+  const tickElapsed = () => {
+    const duration = busy ? Date.now() - startedAt : 0;
+    elapsed.textContent = formatElapsed(duration);
+    elapsed.dateTime = `PT${Math.floor(duration / 1000)}S`;
   };
-  const clearEmptyTranscript = () => {
-    if (!transcript.hasAttribute('data-empty-state')) return;
-    transcript.textContent = '';
-    transcript.removeAttribute('data-empty-state');
+
+  const setBusy = nextBusy => {
+    const wasBusy = consoleElement.dataset.running === 'true';
+    busy = nextBusy;
+    consoleElement.dataset.running = String(nextBusy);
+    stateLabel.textContent = nextBusy ? 'running' : 'idle';
+    elapsed.hidden = !nextBusy;
+    kill.disabled = !nextBusy;
+    for (const worker of workers) worker.disabled = nextBusy;
+
+    if (nextBusy && !wasBusy) {
+      startedAt = Date.now();
+      clearInterval(elapsedTimer);
+      elapsedTimer = setInterval(tickElapsed, 1000);
+    } else if (!nextBusy && wasBusy) {
+      clearInterval(elapsedTimer);
+      elapsedTimer = undefined;
+    }
+    tickElapsed();
+  };
+  const distanceFromBottom = () => scrollback.scrollHeight
+    - scrollback.scrollTop - scrollback.clientHeight;
+  const revealOutput = () => {
+    requestAnimationFrame(() => {
+      scrollback.scrollTop = scrollback.scrollHeight;
+      followsOutput = true;
+      newOutput.hidden = true;
+    });
+  };
+  const afterOutput = () => {
+    if (followsOutput || distanceFromBottom() <= 40) revealOutput();
+    else newOutput.hidden = false;
+  };
+  const appendLine = (text, className) => {
+    const line = document.createElement('div');
+    line.className = className;
+    line.textContent = text;
+    transcript.append(line);
+    afterOutput();
+  };
+  const appendChunk = (chunk) => {
+    const span = document.createElement('span');
+    span.className = 'terminal-chunk';
+    if (typeof window.ansiToHtml === 'function') span.innerHTML = window.ansiToHtml(chunk);
+    else span.textContent = String(chunk || '');
+    transcript.append(span);
+    afterOutput();
+  };
+  const resizePrompt = () => {
+    promptInput.style.height = '0px';
+    promptInput.style.height = `${Math.min(promptInput.scrollHeight, window.innerHeight * 0.3)}px`;
+  };
+  const rememberPrompt = (prompt) => {
+    history.push(prompt);
+    history = history.slice(-50);
+    historyIndex = history.length;
+    historyDraft = '';
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    } catch {
+      // History persistence is optional when storage is unavailable.
+    }
+  };
+  const selectHistory = (direction) => {
+    if (!history.length) return;
+    if (historyIndex === history.length) historyDraft = promptInput.value;
+    historyIndex = Math.max(0, Math.min(history.length, historyIndex + direction));
+    promptInput.value = historyIndex === history.length ? historyDraft : history[historyIndex];
+    resizePrompt();
+    promptInput.setSelectionRange(promptInput.value.length, promptInput.value.length);
   };
 
   form.addEventListener('submit', async event => {
@@ -251,9 +340,12 @@ function initChat() {
     const values = new FormData(form);
     const prompt = String(values.get('prompt') || '').trim();
     if (!prompt) return;
-    clearEmptyTranscript();
+    appendLine(`❯ ${prompt}`, 'terminal-command');
+    rememberPrompt(prompt);
+    promptInput.value = '';
+    resizePrompt();
     setBusy(true);
-    showNote('Run active.');
+    promptInput.focus();
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -261,8 +353,7 @@ function initChat() {
         body: JSON.stringify({ prompt, worker: values.get('worker') || 'codex' }),
       });
       if (response.status === 409) {
-        showNote('a run is already active');
-        setBusy(false);
+        appendLine('! a run is already active', 'terminal-warning');
         return;
       }
       if (!response.ok) {
@@ -270,33 +361,62 @@ function initChat() {
         throw new Error(data.error || 'Could not start the run.');
       }
     } catch (error) {
-      showNote(error.message);
+      appendLine(`! ${error.message}`, 'terminal-error');
       setBusy(false);
+      promptInput.focus();
     }
   });
 
+  promptInput.addEventListener('input', () => {
+    historyIndex = history.length;
+    historyDraft = promptInput.value;
+    resizePrompt();
+  });
+  promptInput.addEventListener('keydown', event => {
+    if (event.isComposing) return;
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      form.requestSubmit();
+    } else if (event.key === 'ArrowUp' && !event.shiftKey && !event.altKey && !event.metaKey) {
+      event.preventDefault();
+      selectHistory(-1);
+    } else if (event.key === 'ArrowDown' && !event.shiftKey && !event.altKey && !event.metaKey) {
+      event.preventDefault();
+      selectHistory(1);
+    }
+  });
+
+  scrollback.addEventListener('scroll', () => {
+    followsOutput = distanceFromBottom() <= 40;
+    if (followsOutput) newOutput.hidden = true;
+  }, { passive: true });
+  newOutput.addEventListener('click', revealOutput);
+
   kill.addEventListener('click', async () => {
     kill.disabled = true;
-    showNote('Stopping run…');
     try {
-      await fetch('/api/chat/kill', { method: 'POST' });
+      const response = await fetch('/api/chat/kill', { method: 'POST' });
+      if (!response.ok) throw new Error('Could not interrupt the run.');
     } catch (error) {
-      showNote(error.message);
+      appendLine(`! ${error.message}`, 'terminal-error');
       kill.disabled = false;
     }
   });
 
+  resizePrompt();
+  requestAnimationFrame(() => promptInput.focus());
+
   return {
     onChunk(data) {
       setBusy(true);
-      clearEmptyTranscript();
-      transcript.textContent += data.chunk || '';
-      transcript.scrollTop = transcript.scrollHeight;
+      appendChunk(data.chunk || '');
     },
     onExit(data) {
-      transcript.textContent += `\n[exit code ${data.code}]\n`;
-      showNote(`Run exited with code ${data.code}.`);
+      const successful = data.code === 0;
+      appendLine(`${successful ? '✓' : '✗'} exit ${data.code ?? '?'}`,
+        successful ? 'terminal-exit-success' : 'terminal-exit-error');
       setBusy(false);
+      promptInput.focus();
     },
   };
 }
