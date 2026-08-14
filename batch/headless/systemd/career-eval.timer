@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Career Ops unattended evaluations every morning
+
+[Timer]
+OnCalendar=*-*-* 07:13
+Persistent=true
+Unit=career-eval.service
+
+[Install]
+WantedBy=timers.target

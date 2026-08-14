@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the Career Ops portal scan every morning
+
+[Timer]
+OnCalendar=*-*-* 06:41
+Persistent=true
+Unit=career-scan.service
+
+[Install]
+WantedBy=timers.target

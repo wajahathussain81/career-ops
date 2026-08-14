@@ -1,0 +1,20 @@
+meta:
+  company: Acme Robotics
+  role: Firmware Engineer
+  tracker: 1
+  round: Hiring manager
+  datetime: 2030-01-15T11:00:00-07:00
+  duration_min: 45
+  platform: Teams
+  interviewer: Pat Smith
+sections:
+  - type: flag
+    kind: proof
+    title: Lead with this
+    body: You built the **CI pipeline**.
+  - type: say
+    title: Opening answer
+    label: Say this
+    paras: ["I am an embedded engineer.", "I built the pipeline."]
+  - type: questions
+    items: ["Why is the role open?"]

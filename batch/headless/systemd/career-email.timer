@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the Career Ops job-application email check every morning
+
+[Timer]
+OnCalendar=*-*-* 07:45
+Persistent=true
+Unit=career-email.service
+
+[Install]
+WantedBy=timers.target

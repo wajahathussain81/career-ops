@@ -1,0 +1,13 @@
+[Unit]
+Description=Career Ops daily job-application email check
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=careerops
+WorkingDirectory=/home/careerops/career-ops
+EnvironmentFile=-/home/careerops/career-ops-env
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+Environment="HOME=/home/careerops"
+ExecStart=/bin/bash /home/careerops/career-ops/batch/headless/daily-email-check.sh
