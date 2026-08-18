@@ -1,0 +1,8 @@
+*.lock
+// Ignore transient files created by atomic tracker writes.
+.*.tmp
+(?d).DS_Store
+cache
+applications.db
+parser-output
+// Keep *.sync-conflict* files syncable so the hub can surface conflicts.

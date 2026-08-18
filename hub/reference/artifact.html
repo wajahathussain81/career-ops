@@ -1,0 +1,916 @@
+<!doctype html><html><head><!-- frame-runtime --><script>window.__FRAME_PREAMBLE={"capabilities":{"assets":"assets.hcOK0ALv.js","comments":"comments.BKZ3qutA.js","db":"db.C8ehi_0m.js","downloads":"downloads.BXsoAvg9.js","mcp":"mcp.CYSdpjo0.js","permissions":"permissions.DdITF2Mk.js","sample":"sample.DpdXn9di.js","self":"self.BN4be5De.js","user":"user.Cr_h1ETf.js"},"transforms":"_transforms.VaITkagF.js","comments":"_comments.CNSvmFji.js","translate":"_translate.BOzFH2D9.js"}</script><script>(function(){"use strict";var ne=["light","dark","system"];function oe(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_init;return t!==null&&typeof t=="object"}function W(e){return e!==null&&typeof e=="object"&&e.__frame_size_poke===!0}function se(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_theme;if(t===null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&ne.includes(n)}function ie(e){try{typeof reportError=="function"?reportError(e):setTimeout(()=>{throw e},0)}catch{}}var Y=Object.freeze(Object.assign(Object.create(null),{user:Object.freeze(Object.assign(Object.create(null),{id:null,isOwner:!1,canEdit:!1,name:null,avatarUrl:null,email:null}))})),ae={sample:"sample"};function x(){const e=new Uint8Array(20);try{crypto.getRandomValues(e)}catch{for(let n=0;n<e.length;n++)e[n]=Math.floor(Math.random()*256)}let t="";for(const n of e)t+=(n%36).toString(36);return t}function le(e,t){const n=r=>{const o={path:r},s=r.split("/");return{id:s[s.length-1],path:r,get:()=>t("get",[o]),set:g=>t("set",[o,g]),update:g=>t("update",[o,g]),delete:()=>t("delete",[o]),acquire:g=>t("acquire",[o,g]),onSnapshot:(g,y)=>t("subscribe",[o,g,y]),collection:g=>a(r+"/"+String(g))}},c=r=>({where:(o,s,g)=>c({...r,where:[...r.where??[],{f:String(o),op:String(s),v:g}]}),orderBy:(o,s)=>c({...r,orderBy:{f:String(o),dir:s===void 0?"asc":String(s)}}),limit:o=>c({...r,limit:Number(o)}),get:()=>t("query",[r]),onSnapshot:(o,s)=>t("subscribe",[r,o,s])}),a=r=>({...c({collection:r}),path:r,doc:o=>n(r+"/"+(o===void 0?x():String(o))),add:o=>{const s=n(r+"/"+x());return Promise.resolve(s.set(o)).then(()=>s)}});e.doc=r=>n(String(r)),e.collection=r=>a(String(r))}var ce=Object.freeze([]);function ue(e,t){let n=null,c=null;const a=()=>e.__settled;e.peers=()=>ce,e.connected=()=>!1,e.emit=()=>a()?.()??Promise.resolve(),e.presence=r=>{const o=a();if(o)return o();let s=null;if(r!==null&&typeof r=="object")try{Array.isArray(r)||(s={...r})}catch{}return s===null?Promise.reject({code:"invalid_argument",message:"presence takes an object"}):(n===null&&(n=Object.create(null),c=Promise.resolve(t("presence",[n]))),Object.assign(n,s),c)}}function J(e){if(window===top||e.type==="auxclick"&&e.button!==1)return;const t=e.composedPath?e.composedPath():[e.target];let n=null;for(let o=0;o<t.length;o++){const s=t[o];if(s&&s.matches&&s.matches("a[href],area[href]")){n=s;break}}if(!n&&e.target&&e.target.closest&&(n=e.target.closest("a[href],area[href]")),!n)return;const c=n.getAttribute("href");if(!c)return;let a,r;try{a=new URL(c,document.baseURI),r=new URL(document.baseURI).origin}catch{return}if((a.protocol==="http:"||a.protocol==="https:")&&a.origin!==r){e.preventDefault();const o=(n.getAttribute("target")??document.querySelector("base[target]")?.getAttribute("target")??"").toLowerCase(),s=e.type==="auxclick"||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||!["","_self","_top","_parent"].includes(o);parent.postMessage({__frame_nav:!0,url:a.href,newTab:s},"*")}}var G={};function D(e){if(window===top)return;const t=Date.now();t-(G[e]||0)<500||(G[e]=t,parent.postMessage({__frame_engaged:!0,kind:e},"*"))}var fe=2e3,V=["wheel","touchstart","touchmove","keydown","pointerdown"],X=0;function de(e){e.isTrusted&&(X=Date.now())}function me(){addEventListener("click",J,!0),addEventListener("auxclick",J,!0)}function pe(){for(let e=0;e<V.length;e++)addEventListener(V[e],de,{capture:!0,passive:!0});addEventListener("scroll",e=>{e.isTrusted&&Date.now()-X<fe&&D("scroll")},{capture:!0,passive:!0}),addEventListener("pointermove",e=>{e.isTrusted&&D("pointer")},{capture:!0,passive:!0}),addEventListener("click",e=>{e.isTrusted&&D("click")},{capture:!0,passive:!0})}var I="__frame_scroll",ge=150,he=310,ve=160,_e=3e4;function ye(){let e=0,t=!1,n=!1,c=!1,a=0,r=null;const o=d=>{try{sessionStorage.setItem(I,JSON.stringify({y:d}))}catch{}},s=()=>{if(clearTimeout(e),r===null)return;const d=r;r=null,o(d)},g=()=>{if(t){t=!1;return}n=!0,r=scrollY,clearTimeout(e),e=setTimeout(s,ge)};try{addEventListener("scroll",g,{passive:!0}),addEventListener("pagehide",s)}catch{}const y=()=>{let d;try{d=sessionStorage.getItem(I)}catch{return null}if(d===null)return null;let u;try{u=JSON.parse(d)}catch{u=null}const p=u?.y;if(!(typeof p=="number"&&Number.isFinite(p)&&p>=0)){try{sessionStorage.removeItem(I)}catch{}return null}return p};let l=!1;const f=d=>{try{const u=scrollY;scrollTo({top:d,left:0,behavior:"instant"}),a=d,c=!0,clearTimeout(e),r=null,o(d);const p=scrollY;p!==u&&(t=!0),p!==d&&!l&&(l=!0,addEventListener("load",()=>{try{if(scrollY===p){const _=y();f(_!==null?_:a)}}catch{}},{once:!0}))}catch{}},m=()=>{try{return!!location.hash}catch{return!0}};let h=!1;const v=()=>{try{if(h||innerWidth>he||innerHeight>ve)return;h=!0;const d=Date.now(),u=()=>{try{removeEventListener("resize",u)}catch{}if(Date.now()-d>_e||n||m())return;const p=y();f(p!==null?p:a)};addEventListener("resize",u)}catch{}};let w=!1,S=!1;return{restore(){if(w||(w=!0,m()))return;const d=y();d!==null&&(f(d),v())},promoted(){if(S||(S=!0,m()))return;const d=y();d!==null?(f(d),v()):c&&f(a)}}}function be(e,t,n){const c=[...t.values()].filter(a=>a.targets.some(r=>r.startsWith(e+".")));return{wrap(a,r){const o=`${e}.${a}`,s=c.filter(g=>g.targets.includes(o));return s.length===0?(...g)=>{try{return r(...g)}catch(y){return Promise.reject(y)}}:(...g)=>{let y=g;for(const f of s){const m=f.module.parameters;if(m)try{y=m(y)}catch{return Promise.reject({code:"transform_error",id:f.id,scope:e,message:"parameters transform failed"})}}let l;try{l=r(...y)}catch(f){l=Promise.reject(f)}return l.then(f=>{for(let m=s.length-1;m>=0;m--){const h=s[m],v=h.module.returns;if(v)try{f=v(f)}catch{return n({id:h.id,scope:e,leg:"returns"}),f}}return f},f=>{for(let m=s.length-1;m>=0;m--){const h=s[m],v=h.module.throws;if(v)try{f=v(f)}catch{return n({id:h.id,scope:e,leg:"throws"}),Promise.reject(f)}}return Promise.reject(f)})}}}}function Ee(e,t,n,c=()=>{}){const a=new Set(e.changes??[]),r=new Map;for(const o of a){const s=t[o];s&&r.set(o,s)}return{contract:e.contract,changes:a,flags:new Set(e.flags??[]),capabilities:e.capabilities??{},capBudgets:e.capBudgets??{},transforms:r,shellOrigin:n.shellOrigin,mount:n.mount,pipe:o=>be(o,r,c)}}var Re="modulepreload",Me=function(e){return"/"+e},Le={},we=function(t,n,c){let a=Promise.resolve();function r(o){const s=new Event("vite:preloadError",{cancelable:!0});if(s.payload=o,window.dispatchEvent(s),!s.defaultPrevented)throw o}return a.then(o=>{for(const s of o||[])s.status==="rejected"&&r(s.reason);return t().catch(r)})};(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let c=0;for(let a=0;a<n.length;a++){const r=n[a];try{e(t,r,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[r]}catch{}try{e(t,r,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[r]=="function"&&c++}if(c&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:c},"*")}catch{}})();var Se=1e4,Ae=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function Q(e){for(const t of Ae)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}var k=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities}),q=window.__FRAME_PREAMBLE?.transforms,z=window.__FRAME_PREAMBLE?.comments,B=window.__FRAME_PREAMBLE?.translate,C=/^[\w.-]+\.js$/,Oe=/^[a-z][a-z0-9_-]{0,63}$/,Z=null,R=null;function $(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}var F=!1;function ee(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,F=!0):F&&(delete t.dataset.theme,t.style.colorScheme="",F=!1)}var te=256,M=Object.assign(Object.create(null),{mcp:Object.assign(Object.create(null),{watchTool:{handlerArg:3}}),db:Object.assign(Object.create(null),{subscribe:{handlerArg:1,errArg:2}}),live:Object.assign(Object.create(null),{on:{handlerArg:1,errArg:2},onPeers:{handlerArg:0,errArg:1},onConnection:{handlerArg:0,errArg:1}})}),je=Object.assign(Object.create(null),{db:(e,t)=>le(e,t),live:(e,t,n)=>ue(e,n)}),L=new Map;function re(e,t){const n=L.get(e);if(!n)return;const c=Object.assign(Object.create(null),t);Object.assign(n.impl,c),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const a=n.queue;n.queue=[];for(const r of a){const o=c[r.method];if(o)if(M[e]?.[r.method])try{r.resolve(o(...r.args))}catch{T(r,M[e][r.method],{code:"transform_error",message:`${e}.${r.method} rejected its arguments`})}else o(...r.args).then(r.resolve,r.reject);else{const s={code:"capability_removed",message:`${e}.${r.method} is not in this runtime`},g=M[e]?.[r.method];if(g){T(r,g,s);continue}r.reject(s)}}}function Pe(e,t){const n=L.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t);const c=n.queue;n.queue=[];for(const a of c){const r=M[e]?.[a.method];if(r){T(a,r,t);continue}a.reject(t)}}function N(e,t){const n=Y[e];if(!n){Pe(e,t);return}re(e,Object.fromEntries(Object.entries(n).map(([c,a])=>[c,()=>Promise.resolve(a)])))}function T(e,t,n){if(e.syncState?.dead)return;const c=t.errArg===void 0?void 0:e.args[t.errArg],a=t.errArg===void 0?e.args[t.handlerArg]:c;typeof a=="function"&&queueMicrotask(()=>{if(!e.syncState?.dead)try{a(t.errArg===void 0?{type:"error",error:n}:n)}catch(r){ie(r)}})}var H=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(H&&H.writable===!1)){me(),pe();let e=null;try{e=ye()}catch{}const t=H?.value??{};$(window,"claude",t);const n=l=>{const f={impl:Object.create(null),queue:[]};L.set(l,f);const m=f.impl,h=d=>({code:"queue_overflow",message:`${l}.${d}: pre-init call queue is full`}),v=(d,u)=>{if(f.queue.length>=te){const p=Y[l];return p&&d in p?Promise.resolve(p[d]):Promise.reject(h(d))}return new Promise((p,_)=>{f.queue.push({method:d,args:u,resolve:p,reject:_})})},w=ae[l],S=new Proxy(w===void 0?m:(()=>{}),{apply:(d,u,p)=>{const _=w,E=m[_]??m.__settled;return E?E(...p):v(_,p)},get:(d,u)=>{if(typeof u!="string"||u==="then"||u==="toJSON"||u==="valueOf")return;if(u==="toString")return Object.prototype.toString;if(w!==void 0&&(u==="call"||u==="apply"||u==="bind"))return Function.prototype[u];const p=M[l]?.[u];return p?(..._)=>{if(typeof _[p.handlerArg]!="function")throw new TypeError(`${l}.${u} requires a handler function`);const E=m[u];if(E)return E(..._);if(m.__settled){const b={dead:!1},U={args:[..._],syncState:b};return m.__settled().catch(i=>T(U,p,i)),()=>{b.dead=!0}}if(f.queue.length>=te){const b={dead:!1};return T({args:[..._],syncState:b},p,h(u)),()=>{b.dead=!0}}let A=null;const j={dead:!1};return f.queue.push({method:u,args:_,resolve:b=>{A=typeof b=="function"?b:null,j.dead&&A?.()},reject:()=>{},syncState:j}),()=>{j.dead=!0,A?.()}}:(..._)=>{const E=m[u]??m.__settled;return E?E(..._):v(u,_)}},set:()=>!1});je[l]?.(m,(d,u)=>S[d](...u),v),$(t,l,S)};for(const l of Object.keys(k)){if(t[l]!==void 0){$(t,l,t[l]);continue}n(l)}let c=null,a=null,r=0;const o=l=>{l.source!==parent||!Q(l.origin)||oe(l.data)&&(c=l.data.__frame_init,R=l.origin,removeEventListener("message",o),clearTimeout(r),a?.())};addEventListener("message",o),parent.postMessage({__frame_connect:!0},"*");const s=new Promise(l=>{a=l,r=setTimeout(()=>{removeEventListener("message",o),l()},Se)}),g=document.readyState==="loading"?new Promise(l=>document.addEventListener("DOMContentLoaded",()=>l(),{once:!0})):Promise.resolve();g.then(()=>{try{e?.restore()}catch{}});const y=l=>{if(!(l.source!==parent||!Q(l.origin))&&W(l.data)){removeEventListener("message",y);try{e?.promoted()}catch{}}};addEventListener("message",y),s.then(async()=>{if(!c||!R){for(const i of L.keys())N(i,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}ee(c.theme);const l=R;let f=!1,m=!1;addEventListener("message",i=>{if(i.source!==parent||i.origin!==l)return;se(i.data)&&ee(i.data.__frame_theme.theme);const O=i.data?.__fc_mode;O&&typeof O=="object"&&!f&&z&&C.test(z)&&(f=!0,h(z).then(K=>K.install?.(l,O.on===!0)).catch(()=>{}));const P=i.data?.__ft_cmd;P&&typeof P=="object"&&!m&&B&&C.test(B)&&(m=!0,h(B).then(K=>K.install?.(l,P)).catch(()=>{}))});const h=i=>we(()=>import("/_runtime/"+i),void 0),v=Object.keys(c.capabilities??{});for(const i of v)Object.hasOwn(k,i)||Oe.test(i)&&t[i]===void 0&&(n(i),N(i,{code:"capability_disabled",message:"capability not in this runtime generation"}));const w=v.filter(i=>Object.hasOwn(k,i)).map(i=>[i,k[i]]).filter(i=>typeof i[1]=="string"&&C.test(i[1])),[S,...d]=await Promise.allSettled([q&&C.test(q)?h(q):Promise.resolve({}),...w.map(([,i])=>h(i))]),u=R;Z=Ee(c,S.status==="fulfilled"&&S.value?.TRANSFORMS||{},{shellOrigin:u,mount:re},i=>parent.postMessage({__frame_cap_telemetry:i},u));const p=i=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:i}},u),_=Z;d.forEach((i,O)=>{const P=w[O][0];if(i.status!=="fulfilled"){p(P);return}try{i.value?.install?.(_)}catch{p(P)}});for(const[i,O]of L)if(O.impl.__settled===void 0){if(v.includes(i)){N(i,{code:"capability_disabled",message:"capability not available in this session"});continue}N(i,{code:"not_granted",message:"capability not available in this session"})}await g,parent.postMessage({__frame_ready:!0},R);let E=-1,A=0;const j=()=>{A=0;const i=Math.max(document.documentElement.scrollHeight,document.body?document.body.scrollHeight:0);i!==E&&(E=i,parent.postMessage({__frame_size:!0,h:i},u))},b=()=>{A||(A=setTimeout(j,200))},U=new ResizeObserver(b);U.observe(document.documentElement),document.body&&U.observe(document.body),document.addEventListener("load",b,!0),document.fonts?.ready.then(b,()=>{}),addEventListener("beforeprint",()=>{E=-1,j()}),b(),addEventListener("message",i=>{if(!(i.source!==parent||i.origin!==u)&&W(i.data)){try{e?.promoted()}catch{}E=-1,b()}})})}})();</script><!-- /frame-runtime --><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>Interview Prep · Magnet Forensics + GM</title>
+<style>
+  :root {
+    --ground:        #F6F7F4;
+    --surface:       #FFFFFF;
+    --surface-sunk:  #EDEFEA;
+    --ink:           #161A18;
+    --ink-soft:      #414A45;
+    --muted:         #6C7671;
+    --rule:          #DBDFD8;
+    --rule-strong:   #C3C9BF;
+
+    --verified:      #1C6B4F;
+    --verified-bg:   #E7F0EA;
+    --reasoned:      #9A6410;
+    --reasoned-bg:   #F7EFDF;
+    --forbidden:     #A03528;
+    --forbidden-bg:  #F7E7E4;
+
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --serif: "Iowan Old Style", "Charter", "Bitstream Charter", Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1rem, 4vw, 1.75rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:       #11151A;
+      --surface:      #171C22;
+      --surface-sunk: #0C1014;
+      --ink:          #E4E9E5;
+      --ink-soft:     #B4BDB7;
+      --muted:        #8A948E;
+      --rule:         #262E36;
+      --rule-strong:  #38424B;
+
+      --verified:     #6FCFA3;
+      --verified-bg:  #14261E;
+      --reasoned:     #E0AC5A;
+      --reasoned-bg:  #2A2013;
+      --forbidden:    #EE8C7C;
+      --forbidden-bg: #2C1714;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:       #11151A;
+    --surface:      #171C22;
+    --surface-sunk: #0C1014;
+    --ink:          #E4E9E5;
+    --ink-soft:     #B4BDB7;
+    --muted:        #8A948E;
+    --rule:         #262E36;
+    --rule-strong:  #38424B;
+
+    --verified:     #6FCFA3;
+    --verified-bg:  #14261E;
+    --reasoned:     #E0AC5A;
+    --reasoned-bg:  #2A2013;
+    --forbidden:    #EE8C7C;
+    --forbidden-bg: #2C1714;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap { max-width: var(--measure); margin: 0 auto; padding: 0 var(--pad) 5rem; }
+
+  /* ---------- sticky control bar ---------- */
+  .bar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar-inner {
+    max-width: var(--measure); margin: 0 auto; padding: 0.6rem var(--pad) 0.7rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .tabs { display: flex; gap: 0.4rem; }
+  .tab {
+    flex: 1 1 0; min-height: 46px;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    gap: 0.1rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--rule-strong); border-radius: 3px;
+    background: var(--surface); color: var(--muted);
+    font: inherit; text-align: left; cursor: pointer;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .tab:hover { border-color: var(--ink-soft); }
+  .tab[aria-selected="true"] {
+    background: var(--ink); color: var(--ground); border-color: var(--ink);
+  }
+  .tab-co { font-weight: 650; font-size: 0.95rem; letter-spacing: -0.005em; }
+  .tab-when { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.02em; opacity: 0.85; }
+  .countdown {
+    font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: baseline; gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown b { color: var(--ink); font-weight: 600; letter-spacing: 0.02em; }
+
+  /* ---------- masthead ---------- */
+  .head { padding: 1.6rem 0 0.4rem; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 0.5rem;
+  }
+  h1 {
+    font-size: clamp(1.5rem, 6vw, 2.1rem); line-height: 1.12; margin: 0 0 0.6rem;
+    letter-spacing: -0.02em; font-weight: 680; text-wrap: balance;
+  }
+  .facts {
+    list-style: none; margin: 0.9rem 0 0; padding: 0.85rem 0 0;
+    border-top: 1px solid var(--rule);
+    display: grid; gap: 0.45rem;
+  }
+  .facts li { display: flex; gap: 0.7rem; align-items: baseline; }
+  .facts dt, .fk {
+    flex: 0 0 5.6rem;
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); padding-top: 0.15rem;
+  }
+  .fv { flex: 1 1 auto; font-size: 0.95rem; }
+  .fv strong { font-weight: 640; }
+
+  /* ---------- sections ---------- */
+  .sec {
+    border: 1px solid var(--rule); border-radius: 4px;
+    background: var(--surface); margin-top: 0.6rem; overflow: hidden;
+  }
+  .sec > summary {
+    list-style: none; cursor: pointer;
+    padding: 0.9rem 1rem; min-height: 48px;
+    display: flex; align-items: center; gap: 0.7rem;
+    font-weight: 620; font-size: 1rem; letter-spacing: -0.01em;
+  }
+  .sec > summary::-webkit-details-marker { display: none; }
+  .sec > summary:hover { background: var(--surface-sunk); }
+  .sec > summary:focus-visible { outline: 2px solid var(--verified); outline-offset: -2px; }
+  .sec-n {
+    font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    flex: 0 0 auto; padding-top: 0.12rem; font-variant-numeric: tabular-nums;
+  }
+  .sec-t { flex: 1 1 auto; }
+  .chev { flex: 0 0 auto; color: var(--muted); transition: transform 160ms ease; }
+  .sec[open] > summary { border-bottom: 1px solid var(--rule); }
+  .sec[open] .chev { transform: rotate(90deg); }
+  .sec-body { padding: 0.2rem 1rem 1.1rem; }
+  .sec-body > * + * { margin-top: 0.85rem; }
+  .sec-body p { margin: 0; color: var(--ink-soft); }
+  .sec-body h3 {
+    margin: 1.4rem 0 0; font-size: 0.95rem; font-weight: 650; letter-spacing: -0.005em;
+  }
+  .sec-body h3:first-child { margin-top: 0.6rem; }
+  .sec-body ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; }
+  .sec-body ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
+  .sec-body li { color: var(--ink-soft); }
+  .sec-body strong { color: var(--ink); font-weight: 640; }
+
+  /* ---------- spoken passages: the voice face ---------- */
+  .say {
+    font-family: var(--serif);
+    font-size: 1.06rem; line-height: 1.62;
+    color: var(--ink);
+    background: var(--surface-sunk);
+    border-left: 2px solid var(--verified);
+    border-radius: 0 3px 3px 0;
+    padding: 0.9rem 1rem;
+    margin: 0;
+  }
+  .say p { margin: 0; color: var(--ink); font-family: var(--serif); }
+  .say p + p { margin-top: 0.7rem; }
+  .say-label {
+    display: block;
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--verified);
+    margin-bottom: 0.5rem; font-weight: 600;
+  }
+
+  /* ---------- epistemic callouts ---------- */
+  .flag {
+    border-radius: 3px; padding: 0.75rem 0.9rem;
+    font-size: 0.88rem; line-height: 1.5;
+  }
+  .flag-t {
+    display: block; font-family: var(--mono);
+    font-size: 0.64rem; letter-spacing: 0.11em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 0.35rem;
+  }
+  .reasoned { background: var(--reasoned-bg); color: var(--ink); border-left: 2px solid var(--reasoned); }
+  .reasoned .flag-t { color: var(--reasoned); }
+  .forbid   { background: var(--forbidden-bg); color: var(--ink); border-left: 2px solid var(--forbidden); }
+  .forbid .flag-t { color: var(--forbidden); }
+  .proof    { background: var(--verified-bg); color: var(--ink); border-left: 2px solid var(--verified); }
+  .proof .flag-t { color: var(--verified); }
+
+  .forbid ul { margin: 0.5rem 0 0; padding-left: 1.05rem; display: grid; gap: 0.38rem; }
+  .forbid li { color: var(--ink); }
+  .ok { color: var(--verified); font-weight: 640; }
+
+  /* ---------- the live-call card ---------- */
+  .live {
+    border: 1.5px solid var(--ink); border-radius: 4px;
+    background: var(--surface); margin-top: 0.9rem; overflow: hidden;
+  }
+  .live-head {
+    background: var(--ink); color: var(--ground);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.11em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center; gap: 0.6rem;
+  }
+  .live-body { padding: 0.3rem 0 0.4rem; }
+  .row { display: flex; gap: 0.75rem; padding: 0.65rem 1rem; border-bottom: 1px solid var(--rule); }
+  .row:last-child { border-bottom: none; }
+  .row-k {
+    flex: 0 0 5.2rem;
+    font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); padding-top: 0.2rem;
+  }
+  .row-v { flex: 1 1 auto; font-size: 0.92rem; color: var(--ink); }
+  .row-v .quote { font-family: var(--serif); font-size: 1rem; line-height: 1.5; }
+  .row.crit .row-k { color: var(--forbidden); }
+  .row.money { background: var(--verified-bg); }
+  .row.money .row-k { color: var(--verified); }
+
+  /* ---------- gap banner ---------- */
+  .gap {
+    border: 1.5px dashed var(--forbidden); border-radius: 4px;
+    background: var(--forbidden-bg); padding: 0.9rem 1rem; margin-top: 0.9rem;
+  }
+  .gap-t {
+    font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--forbidden); font-weight: 650; margin: 0 0 0.4rem;
+  }
+  .gap p { margin: 0; color: var(--ink); font-size: 0.9rem; }
+  .gap ol { margin: 0.55rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+  .gap li { color: var(--ink); font-size: 0.88rem; }
+
+  .pane[hidden] { display: none; }
+
+  .foot {
+    margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.04em;
+    color: var(--muted); line-height: 1.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="tabs" role="tablist" aria-label="Interviews">
+      <button class="tab" id="tab-mag" role="tab" aria-selected="true" aria-controls="pane-mag">
+        <span class="tab-co">Magnet Forensics</span>
+        <span class="tab-when">WED 12 · 11:00 MDT · 45m</span>
+      </button>
+      <button class="tab" id="tab-gm" role="tab" aria-selected="false" aria-controls="pane-gm">
+        <span class="tab-co">General Motors</span>
+        <span class="tab-when">THU 13 · 14:00 MDT · 30m</span>
+      </button>
+    </div>
+    <div class="countdown" id="cd" aria-live="off">&nbsp;</div>
+  </div>
+</div>
+
+<!-- ============================ MAGNET ============================ -->
+<div class="wrap pane" id="pane-mag" role="tabpanel" aria-labelledby="tab-mag">
+
+  <header class="head">
+    <p class="eyebrow">Hiring manager round · Tracker #739</p>
+    <h1>Software Development Engineer in Test</h1>
+    <ul class="facts">
+      <li><span class="fk">When</span><span class="fv"><strong>Wed 12 Aug, 11:00 MDT</strong> / 12:00 ET · 45 min</span></li>
+      <li><span class="fk">Where</span><span class="fv">Microsoft Teams · ID <span style="font-family:var(--mono);font-size:0.88em"><meeting-id></span></span></li>
+      <li><span class="fk">Who</span><span class="fv"><strong>Shannon Cox</strong> · Quality Engineering Director. Pronouns unknown, use they/them.</span></li>
+      <li><span class="fk">Settled</span><span class="fv">Fully remote, Calgary fine. Comp discussed as all-base with Rachel Ko on 5 Aug. <strong>Do not reopen comp.</strong></span></li>
+      <li><span class="fk">Notice</span><span class="fv">Invite states AI tools may assist evaluation; joining is consent. Opt-out link is in the email.</span></li>
+    </ul>
+  </header>
+
+  <div class="flag proof" style="margin-top:1rem">
+    <span class="flag-t">Lead with this</span>
+    You built your team's first full GitLab CI/CD pipeline, the team adopted it, and it cut deployment time 30% — measured. Shannon's own career appears to run test automation into DevOps platform work. That pipeline is the closest point of contact between your experience and theirs.
+  </div>
+
+  <details class="sec" open>
+    <summary><span class="sec-n">01</span><span class="sec-t">Opening answer · ~50 sec</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <blockquote class="say">
+        <span class="say-label">Say this</span>
+        <p>"I'm an embedded software engineer in Calgary. Most of my last year was on locomotive control systems at On Track Controls, working in Rust, C++, and Qt.</p>
+        <p>The piece I'd point at first is that I built our team's first full GitLab CI/CD pipeline. It built and released the NVision IV HMI on Windows 11 IoT, the team actually adopted it, and it cut deployment time by 30 percent, measured. I'd started on a Yocto Linux build to take that further before I left.</p>
+        <p>Alongside that I rebuilt the front end of our control-board test fixture, fixed bugs in the Rust backend behind it, and got per-board validation results logged to CSV, so we had evidence instead of opinions."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">02</span><span class="sec-t">Who you're talking to</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag reasoned">
+        <span class="flag-t">Calibration only · do not say aloud</span>
+        This comes from a data broker and search snippets, not a page read directly. LinkedIn blocked automated access and "Shannon Cox" is a high-collision name. Confidence is moderate-high on the person, moderate on their current Magnet role. <strong>Never name their prior employers in the interview.</strong> A wrong or stale employer is an unforced error.
+      </div>
+      <h3>Apparent arc, unverified</h3>
+      <ul>
+        <li>~2007–2017, roughly a decade hands-on in test and test automation: Signiant, Adobe, BlackBerry, Solace</li>
+        <li>2017–2021 DevOps Platform Lead, Trend Micro</li>
+        <li>2021–2022 Software Development Team Lead, Trend Micro</li>
+        <li>2022–2026 Director, Vision One Endpoint Security, Trend Micro</li>
+        <li>Now Quality Engineering Director at Magnet. Ottawa-based. ~19 years total.</li>
+      </ul>
+      <h3>What it means</h3>
+      <ul>
+        <li><strong>They will hear through hand-waving.</strong> A decade of building automation by hand means vague answers about coverage die instantly. This favours you — the honest "I haven't done that, here's how I'd approach it" answers below will land better than confident bluffing.</li>
+        <li><strong>No public talks or writing exists.</strong> Nothing to preempt, so asking them directly about their views is a genuinely good question.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">03</span><span class="sec-t">Magnet's stated quality mandate</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>From Magnet's own Director of Quality Engineering posting for this org.</p>
+      <div class="flag forbid">
+        <span class="flag-t">Hard warning</span>
+        Never describe testing or QA as a gate, gatekeeper, checkpoint, or anything standing between developers and release. Their posting rejects that framing <strong>twice</strong>. Prevention and shared ownership are the expected register.
+      </div>
+      <ul>
+        <li>"quality as a shared responsibility, <strong>not a gatekeeping function</strong>"</li>
+        <li>"teams proactively <strong>prevent</strong> issues, not just detect them"</li>
+        <li>QEs are "<strong>embedded in feature squads</strong> but aligned through a centralized vision and standards"</li>
+        <li>Org is moving "from <strong>desktop software to SaaS</strong>-based digital investigation platforms"</li>
+      </ul>
+      <h3>Metrics they name</h3>
+      <p>Defect escape rate · test coverage · release confidence · MTTR · deployment success rate</p>
+      <h3>Stack they name</h3>
+      <p>Cypress, Playwright, Selenium · GitHub Actions, Azure DevOps, Jenkins · blue/green and canary · AWS, Azure, GCP, Kubernetes. The SDET req asks for Python 3 with PyTest, API testing, Docker, Linux, CI/CD. AXIOM desktop uses C#, Python, Telerik Test Studio, AWS, Jenkins.</p>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">04</span><span class="sec-t">How you think about testing</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <h3>What you automate first</h3>
+      <blockquote class="say">
+        <span class="say-label">Grounded in real work</span>
+        <p>"I automate the checks that are repeated often, carry meaningful product risk, and can give a stable signal. I also look for expensive manual handoffs. At CPKC, I automated a crossing-data workflow across web applications with Selenium and REST APIs, which avoided $100,000 in consulting fees. On the locomotive-board fixture, the useful signal was repeatable input and output validation with a result logged for every board. My first question is not whether something can be automated. It is whether the automation will shorten feedback, reduce error, and stay trustworthy enough that people act on it."</p>
+      </blockquote>
+
+      <h3>A flaky suite</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">Reasoning, not experience</span>
+        No source says you have owned a flaky automated suite. The answer says so out loud — keep it that way.
+      </div>
+      <blockquote class="say">
+        <p>"I have not owned a flaky suite, so I would not pretend I have a packaged playbook from experience. I would start by making the failures observable: which tests fail, how often, on which environment, and whether the failure repeats locally. Then I would separate product failures from test-code, data, timing, dependency, and environment failures. I would quarantine only when a test is actively destroying trust, keep the issue visible, and fix or remove the cause rather than normalizing reruns. I would also track whether the suite is getting faster and more reliable after each change."</p>
+      </blockquote>
+
+      <h3>When coverage is sufficient</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">Reasoning, not experience</span>
+        Sources show validation work, not ownership of a formal coverage model or threshold.
+      </div>
+      <blockquote class="say">
+        <p>"I would not use one percentage as the definition of sufficient coverage. I would map coverage to risk and product intent: critical workflows, boundaries, failure paths, integrations, and the parts most likely to regress. I would want fast lower-level checks where they give a precise failure signal, plus enough integration and end-to-end coverage to prove the real path works. The stopping question is whether the remaining untested risk is understood and acceptable, not whether every possible path has a test. On the board fixture, the concrete evidence was per-board input and output validation recorded to CSV."</p>
+      </blockquote>
+
+      <h3>When manual still wins</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">Examples real, rule reasoned</span>
+        The examples are source-backed. The decision rule itself is an interview position, not a documented past framework.
+      </div>
+      <blockquote class="say">
+        <p>"Manual testing wins when the problem is still exploratory, the expected behavior is changing, or physical observation is part of the signal. I have used hands-on breadboarding to evaluate HDLC alternatives, validated firmware upgrades, debugged motor controllers, and used lab equipment around hardware. Once the behavior and failure modes are understood, I look for the smallest repeatable tool that removes recurring effort. The HDLC work is a good example: hands-on evaluation identified the question, then a Python serial script made the check repeatable."</p>
+      </blockquote>
+
+      <h3>Working with developers, not behind them</h3>
+      <blockquote class="say">
+        <p>"I want quality work to begin while a feature is being shaped, not after code is handed over. I would ask about intent, risk, observability, and testability during refinement, then agree on which checks belong closest to the code and which need integration coverage. On the board-test project, another team member owned the YAML test cases. My scope was the front end, targeted fixes in the pre-existing Rust backend, live status, and the firmware provisioning path. That boundary matters. Good collaboration means making ownership explicit, sharing evidence when something fails, and solving the system problem together instead of handing quality work off at the end."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">05</span><span class="sec-t">The four declared gaps</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>Shannon already knows all four — you declared them when you applied and they advanced you anyway. Same shape each time: <strong>acknowledge, transfer, close.</strong> Do not apologise, and do not volunteer these unprompted.</p>
+
+      <h3>C#</h3>
+      <blockquote class="say">
+        <p>"I have not used C#. The nearest transferable experience is production work across Rust, C++, C, Python, JavaScript, and Qt/QML, including reading and fixing code in an existing Rust test backend. My closing plan would be to learn inside Magnet's codebase: first understand the test structure and conventions, then make a small reviewed change, then take on a contained test or framework task. I would use code review to correct language-specific habits early."</p>
+      </blockquote>
+
+      <h3>Playwright</h3>
+      <blockquote class="say">
+        <p>"I have not used Playwright. My closest experience is the Python automation pipeline I built with Selenium and ArcGIS REST APIs across web applications. That gives me transferable browser and API automation experience, without claiming the libraries are identical. My closing plan would be to learn Magnet's existing Playwright patterns, reproduce a small current test, study how the team handles fixtures, waits, traces, and test data, then contribute a reviewed test before changing shared framework code."</p>
+      </blockquote>
+
+      <h3>Agentic testing</h3>
+      <blockquote class="say">
+        <p>"I have not used agents for testing, and I declared that in the application. My nearest experience is designing AI-assisted development workflows with scoped task briefs, isolated work, parallel and serial stages, and test and review controls. I also wrote a shell workflow that invokes Codex non-interactively, validates the result against a schema, renders it, and publishes it on a schedule. My closing plan would start with a constrained testing use case, keep deterministic checks and human review around the output, measure whether it improves signal or cycle time, and expand autonomy only when the results justify it."</p>
+      </blockquote>
+
+      <h3>Under three years as an SDET</h3>
+      <blockquote class="say">
+        <p>"I do not have three years in a dedicated SDET role. My relevant experience is spread across software engineering, automation, integration, firmware validation, CI/CD, and test tooling. The strongest examples are the locomotive-board test software, the CPKC Selenium and API pipeline, firmware and motor-controller validation, and the HDLC serial checks. I cannot compress tenure, so my plan is to close the risk through evidence: take a bounded quality area, make the signals observable, deliver maintainable changes through review, and ask for direct feedback against the team's expectations."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">06</span><span class="sec-t">Stories, angled for a test audience</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <h3>1 · Locomotive control-board test fixture</h3>
+      <ul>
+        <li><strong>S</strong> — An existing bed-of-nails fixture ran tests on locomotive control PCBs. Its Rust backend already existed; another team member wrote the YAML test cases.</li>
+        <li><strong>T</strong> — Improve operator experience, remove a blocking defect, expose progress, preserve evidence, make provisioning repeatable.</li>
+        <li><strong>A</strong> — Rebuilt the front end in Qt/QML and C++; fixed bugs in the existing Rust backend including UI-thread blocking; added live updates and a progress bar; added CAN-based serial-number and battery-date provisioning in C firmware.</li>
+        <li><strong>R</strong> — Per-board I/O results logged to CSV; EEPROM provisioning saved 30 minutes of manual entry per board.</li>
+        <li><strong>Reflection</strong> — Keep execution, operator feedback, and evidence capture observable. Be precise about which parts of a shared test system you own.</li>
+      </ul>
+      <div class="flag forbid">
+        <span class="flag-t">Boundary</span>
+        You did not build the physical fixture, author the YAML tests, or design the Rust backend's threading model.
+      </div>
+
+      <h3>2 · CPKC crossing-data automation</h3>
+      <ul>
+        <li><strong>S</strong> — Railway crossing data had to move across web applications, with heavy external consulting cost attached.</li>
+        <li><strong>T</strong> — Make extraction, synchronisation, and upload repeatable.</li>
+        <li><strong>A</strong> — Built a Python pipeline using Selenium and ArcGIS REST APIs.</li>
+        <li><strong>R</strong> — Avoided $100,000 in external consulting fees. <span class="ok">Measured.</span></li>
+        <li><strong>Test angle</strong> — UI and API automation in one workflow, plus judgment about an expensive manual process.</li>
+      </ul>
+
+      <h3>3 · GitLab CI/CD for NVision IV</h3>
+      <ul>
+        <li><strong>S</strong> — The team needed a repeatable build and release path for the locomotive HMI on Windows 11 IoT.</li>
+        <li><strong>T</strong> — Improve deployment speed and consistency on existing GitLab infrastructure.</li>
+        <li><strong>A</strong> — Built and released the team's first full pipeline; began a Yocto Linux image-based build path.</li>
+        <li><strong>R</strong> — Deployment time down 30%. <span class="ok">Measured, and the team adopted it.</span></li>
+        <li><strong>Reflection</strong> — A pipeline only helps quality when it produces a repeatable, visible signal and the team trusts the artifact it releases.</li>
+      </ul>
+      <div class="flag forbid">
+        <span class="flag-t">Boundary</span>
+        NVision IV never reached customers before your role ended in company-wide budget cuts. Do not call it a customer release.
+      </div>
+
+      <h3>4 · HDLC serial validation</h3>
+      <ul>
+        <li><strong>S</strong> — Existing HDLC modules were costly; cheaper alternatives needed validating against air-brake simulator serial data.</li>
+        <li><strong>T</strong> — Answer one narrow question: was the alternative hardware receiving the required data?</li>
+        <li><strong>A</strong> — Breadboarded the alternatives, wrote a focused Python script to validate the serial input.</li>
+        <li><strong>R</strong> — Supported a hardware alternative saving $3,000 per module.</li>
+        <li><strong>Reflection</strong> — The right test tool is sometimes a small purpose-built script, not a broad framework. Start with the risk-driving question.</li>
+      </ul>
+
+      <h3>5 · Re-Electric subsystem validation</h3>
+      <ul>
+        <li><strong>S</strong> — A student EV project with a four-person testing and integration team. The electrical subsystems never reached a working vehicle.</li>
+        <li><strong>T</strong> — Lead the team and own validation of subsystems, harnesses, custom Tesla battery PCBs, and BMS telemetry.</li>
+        <li><strong>A</strong> — Directed the team, designed AutoCAD wiring diagrams, routed harnesses, validated battery PCBs with multimeters for BMS telemetry.</li>
+        <li><strong>R</strong> — Subsystems validated in scope; the project ended before full vehicle integration.</li>
+        <li><strong>Reflection</strong> — Component-level results are not system-level evidence. You would define integration milestones earlier and reserve time to test assembled interfaces.</li>
+      </ul>
+
+      <div class="flag proof">
+        <span class="flag-t">If Shannon reads the resume line aloud</span>
+        <blockquote class="say" style="background:transparent;border-left:none;padding:0.5rem 0 0;margin:0">
+          <p>"That was a student project, and I led a four-person testing and integration team. I want to be precise about where it landed: we validated the electrical subsystems, including the harnesses, battery PCBs, and telemetry into the BMS, but we never integrated those subsystems into a working vehicle before the year ended. The 'full EV conversion' wording on my resume overstates the result, and I would rather correct it directly than let it pass."</p>
+        </blockquote>
+      </div>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">07</span><span class="sec-t">First 90 days</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag reasoned">
+        <span class="flag-t">A proposal, not a plan</span>
+        Derived from the JD, not from knowledge of Magnet's internals. Offer it as a proposal and confirm priorities with them.
+      </div>
+      <blockquote class="say">
+        <p>"In the first 30 days, I would learn the product risks, team workflow, test architecture, CI signals, and how failures are triaged. I would pair with engineers, product, and quality leaders, read recent regressions, and get one small change through the full review and pipeline path.</p>
+        <p>From days 31 to 60, I would take a bounded feature or component and write down its quality risks, current coverage, missing observability, and release criteria. I would contribute a contained automation improvement in the team's stack, including C# or Playwright where that is actually used, and use review feedback to close those language and framework gaps.</p>
+        <p>From days 61 to 90, I would own the quality approach for a feature through refinement, implementation, and release. I would report what improved, what remains risky, and what the next practical investment should be. If the team has a suitable agent-assisted testing use case, I would start with a constrained experiment, deterministic checks, human review, and a clear measure of whether it improved feedback or reliability."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">08</span><span class="sec-t">Questions for Shannon</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>Ask the best two or three the conversation hasn't already answered.</p>
+      <div class="flag proof">
+        <span class="flag-t">Domain context</span>
+        Magnet's output becomes court evidence. A parsing bug is a wrong artifact in a legal exhibit, not a cosmetic defect. They launched Magnet AI in April 2026 and acquired Medex Forensics (deepfake and synthetic-media authentication) and V2 Forensics (drone).
+      </div>
+      <ol>
+        <li>How do you think about testing non-deterministic AI output against an evidentiary standard, especially when investigators need results they can explain and defend?</li>
+        <li>How do you think about the quality bar for this team, and what would good look like for this hire in the first six months?</li>
+        <li>Why is this role open now, and what problem do you most need this person to take off the team's plate?</li>
+        <li>When a regression reaches a customer or a critical workflow, how does the team investigate it and change the system so it is less likely to recur?</li>
+        <li>Which quality signals does the team trust today, and where are flakiness, slow feedback, or coverage gaps still getting in the way?</li>
+        <li>How are agent-assisted testing workflows being used today, and what evidence would you need before giving an agent more autonomy?</li>
+        <li>How early does the SDET join refinement and design discussions?</li>
+        <li>How is the team shaped across engineers, quality engineers, product, and senior quality leadership?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">09</span><span class="sec-t">Do not say</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag forbid">
+        <span class="flag-t">Never</span>
+        <ul>
+          <li>Testing or QA as a <strong>gate, gatekeeper, or checkpoint</strong>. Their posting rejects this twice.</li>
+          <li>Shannon's prior employers or career history out loud. That research is unverified.</li>
+          <li>C# experience. Playwright experience. Agentic testing experience.</li>
+          <li>Three or more years in a dedicated SDET role.</li>
+          <li>That you built the bed-of-nails fixture. You overhauled software for an existing one.</li>
+          <li>That you authored the YAML test cases. Another team member wrote them.</li>
+          <li>That you architected the fixture's Rust backend or threading model. You fixed bugs in it, including UI-thread blocking.</li>
+          <li>Blending the HMI's Rust backend with the separate test-fixture backend. Different systems.</li>
+          <li>Broad QA ownership for a whole team or product.</li>
+          <li>That NVision IV reached customers. It did not.</li>
+          <li>"Full EV conversion", that the conversion completed, or that systems were integrated.</li>
+          <li>Authorship of any Magnet tool, repo, product, or framework.</li>
+          <li>Reasoning about flaky suites or coverage thresholds presented as past experience.</li>
+          <li>Apologies for the four gaps. State boundary, transfer, plan.</li>
+          <li>Anything about compensation. Rachel already handled it.</li>
+        </ul>
+      </div>
+      <div class="flag proof">
+        <span class="flag-t">Verified, safe to say</span>
+        "I directed a four-person testing and integration team." That leadership claim is confirmed, and the "Testing and Integration Team Lead" title is accurate.
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ============================== GM ============================== -->
+<div class="wrap pane" id="pane-gm" role="tabpanel" aria-labelledby="tab-gm" hidden>
+
+  <header class="head">
+    <p class="eyebrow">Recruiter phone screen · Tracker #338 · JR-202616114</p>
+    <h1>Senior Software Developer, Virtualization &amp; SIL Integration</h1>
+    <ul class="facts">
+      <li><span class="fk">When</span><span class="fv"><strong>Thu 13 Aug, 14:00 MDT</strong> / 16:00 ET · 30 min</span></li>
+      <li><span class="fk">How</span><span class="fv"><strong>Telephone. Mark Pelka calls you.</strong> There is no video link to join.</span></li>
+      <li><span class="fk">Who</span><span class="fv">Mark Pelka. Pronouns unknown, use they/them.</span></li>
+      <li><span class="fk">Role</span><span class="fv">Markham, Ontario · hybrid, 3+ office days per week in the JD.</span></li>
+      <li><span class="fk">Setup</span><span class="fv">Somewhere quiet and private. Charged phone, good signal, water, printed CV, this page open.</span></li>
+    </ul>
+  </header>
+
+  <div class="flag reasoned" style="margin-top:1rem">
+    <span class="flag-t">Inferred, not stated</span>
+    Mark's recruiter role comes from GM's published Interview Preparation Toolkit — "phone screens are initial conversations with a Recruiter… approximately 30 minutes" — plus the exact format match. The invite never states their title. Prepare for breadth, not depth: <strong>save deep SIL and virtualization detail for a later round.</strong>
+  </div>
+
+  <div class="live">
+    <div class="live-head"><span>Open during the call</span><span>no video — they can't see this</span></div>
+    <div class="live-body">
+      <div class="row"><span class="row-k">Headline</span><span class="row-v">Electrical engineer and APEGA EIT with production embedded work in C, C++, Rust, Python, Qt/QML, CAN, controller validation, test tooling, release automation.</span></div>
+      <div class="row"><span class="row-k">Best match</span><span class="row-v">Locomotive control-board fixture software · CAN EEPROM firmware · Python hardware validation · motor-controller debugging · first full GitLab CI/CD pipeline for NVision IV.</span></div>
+      <div class="row money"><span class="row-k">Measured</span><span class="row-v">$2,000 saved per HMI unit · $100,000 consulting avoided at CPKC · 30% less deployment time.</span></div>
+      <div class="row"><span class="row-k">Seniority</span><span class="row-v quote">"I have roughly one year of professional embedded software experience, so I do not present myself as having the requested tenure. I do bring production ownership, team leadership, and measured delivery results."</span></div>
+      <div class="row"><span class="row-k">Tools gap</span><span class="row-v quote">"I have not used Simulink, FMI, or AUTOSAR directly. My closest experience is embedded C, MATLAB, CAN, controller and firmware validation, sensor and actuator work, and integration across software and hardware boundaries."</span></div>
+      <div class="row"><span class="row-k">Relocation</span><span class="row-v quote">"I am in Calgary and I am open to relocating to the Toronto area. I understand this role is hybrid in Markham, and I would align a relocation plan with the required start and office schedule once those expectations are clear."</span></div>
+      <div class="row money"><span class="row-k">Comp</span><span class="row-v"><span class="quote">"I stated $115,000 to $125,000 CAD in the application, and that remains my range."</span><br><strong>Stay consistent. Do not go below, do not raise it now, do not renegotiate.</strong></span></div>
+      <div class="row"><span class="row-k">Ask 1</span><span class="row-v quote">"What would make this hire successful in the first six months?"</span></div>
+      <div class="row"><span class="row-k">Ask 2</span><span class="row-v quote">"Which gap is most urgent for the team today: model integration, simulation release quality, or support for simulation users?"</span></div>
+      <div class="row"><span class="row-k">Ask 3</span><span class="row-v quote">"What are the remaining interview stages, and what should I expect each stage to evaluate?"</span></div>
+      <div class="row"><span class="row-k">Close</span><span class="row-v quote">"The core of this role is where I've been strongest: embedded integration, repeatable validation, debugging, and delivery tooling. That's the work I want to keep doing, and I'm happy to go deeper on any of it."</span></div>
+    </div>
+  </div>
+
+  <div class="gap">
+    <p class="gap-t">Unfinished · GM asks this question by name</p>
+    <p>"Tell me about a time when the actions you took were resisted or blocked and how you managed the situation." It appears verbatim in GM's own published toolkit. No such incident exists in your CV or story bank, so nothing was invented. You need to supply one:</p>
+    <ol>
+      <li>What you proposed or did</li>
+      <li>Who or what resisted or blocked it</li>
+      <li>What <em>you personally</em> said or did next</li>
+      <li>What actually happened, including any unresolved limit</li>
+    </ol>
+    <p style="margin-top:0.55rem">Maps to <strong>Speak Fearlessly</strong> and <strong>Own The Outcome</strong>. Think On Track Controls.</p>
+  </div>
+
+  <details class="sec">
+    <summary><span class="sec-n">01</span><span class="sec-t">How GM actually evaluates you</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>GM's toolkit says questions "ARE BASED ON GLOBAL COMPETENCIES validated for each position" and are "structured around behavioral questions". They direct candidates to <strong>use the STAR format.</strong></p>
+      <h3>Two STAR rules that matter for you</h3>
+      <div class="flag forbid">
+        <span class="flag-t">Rule 1 · keep it on you</span>
+        "keep the focus on you. Even if you are discussing a group project or effort, describe what you did, not the efforts of the team." Directly relevant to Re-Electric, where you directed four people. Stay on <em>your</em> decisions, don't collapse into "we".
+      </div>
+      <div class="flag forbid">
+        <span class="flag-t">Rule 2 · one incident</span>
+        "Do not generalize the description." One specific incident with concrete actions and a real result. Not a pattern, not how you usually work.
+      </div>
+      <h3>Values</h3>
+      <p>Customers · Excellence · Relationships · <strong>Seek Truth</strong> — "We pursue facts, respectfully challenge assumptions, and clearly define objectives. When we disagree, we provide additional context and consider multiple perspectives."</p>
+      <h3>Behaviors</h3>
+      <p>Win With Integrity · Speak Fearlessly · Lead As One Team · Commit To Customers · Move With Urgency · Own The Outcome · Innovate &amp; Embrace Change · Be Inclusive</p>
+      <div class="flag reasoned">
+        <span class="flag-t">Inferred</span>
+        GM lists 19 competencies. The likely ones for this role: Technical &amp; Professional Expertise, Solves Problems and Analyzes Issues, Takes Initiative, Collaboration and Teamwork, Drives for Results, Innovates, Communicates Powerfully and Prolifically.
+      </div>
+      <p>Later rounds are "typically scheduled for <strong>2 HOURS</strong>" — save the deep material for those.</p>
+    </div>
+  </details>
+
+  <details class="sec" open>
+    <summary><span class="sec-n">02</span><span class="sec-t">Opening answer · 60–90 sec</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <blockquote class="say">
+        <span class="say-label">Say this</span>
+        <p>"I am an electrical engineer and APEGA EIT focused on embedded software, integration, and validation. At On Track Controls, I worked on locomotive control systems in C, C++, Rust, Python, and Qt/QML. I rebuilt the front end for an existing control-board test fixture, fixed targeted bugs in its pre-existing Rust backend, added CAN-based board provisioning in C firmware, and supported per-board validation logging. I also validated firmware upgrades and debugged motor controllers for the CPKC hydrogen locomotive program.</p>
+        <p>The delivery side matters to me too. I built my team's first full GitLab CI/CD pipeline for NVision IV. It built and released the HMI on Windows 11 IoT, the team adopted it, and it reduced deployment time by a measured 30 percent.</p>
+        <p>This GM role stands out because it applies the same embedded-test and integration mindset earlier through virtual controller and SIL environments. I have not used Simulink, FMI, or AUTOSAR directly, and my professional embedded tenure is shorter than the title suggests. What I can bring immediately is hands-on controller validation, CAN, Python test tooling, firmware debugging, and disciplined integration across hardware and software boundaries."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">03</span><span class="sec-t">Why this role, why GM</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <blockquote class="say">
+        <p>"I want to keep working at the boundary between embedded software, controls, integration, and test. At On Track Controls, I worked with real controller boards, CAN firmware, telemetry, motor controllers, and repeatable validation. This role moves that same problem-solving discipline into virtual environments, where controller and subsystem behavior can be integrated and validated before relying on physical hardware.</p>
+        <p>GM's posting is specific about the work: virtual controllers, HWIO, RTOS and communication models, plant and ECU models, release quality, and user troubleshooting for propulsion thermal management. That is a focused next step from my embedded test and integration background, while giving me a clear path to deepen the simulation standards and modeling tools I have not yet used."</p>
+      </blockquote>
+      <div class="flag forbid">
+        <span class="flag-t">Avoid</span>
+        Generic claims about GM culture, products, or strategy that are not in the JD.
+      </div>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">04</span><span class="sec-t">The technical ground</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag reasoned">
+        <span class="flag-t">Reasoned reading of the JD</span>
+        Not a claim of direct SIL delivery experience or knowledge of GM's internal architecture.
+      </div>
+      <h3>What SIL means in this JD</h3>
+      <ul>
+        <li>Assembling executable virtual controller, communication, plant, sensor, actuator, and ECU behavior into a dynamic simulation environment</li>
+        <li>Supports development, verification, and validation of embedded controllers and calibrations for propulsion thermal management</li>
+        <li>Virtualization moves integration and test work into software, exercising controller behavior through defined interfaces and models</li>
+        <li>A <strong>SIMBOM</strong> is the set of cosimulation assets required by the test requirements</li>
+        <li>Release quality covers integration, testing, documentation, delivery, user testing, troubleshooting, and cloud-deployment support</li>
+      </ul>
+      <h3>What genuinely maps</h3>
+      <ul>
+        <li><strong>Hardware-backed validation</strong> — fixture software exercised control-board MCU and I/O signals. HIL-<em>adjacent</em>, not SIL and not a documented HIL platform.</li>
+        <li><strong>Test-fixture software</strong> — rebuilt front end in Qt/QML and C++, fixed Rust backend bugs, live status, CSV result logging.</li>
+        <li><strong>CAN and firmware</strong> — serial-number and battery-date provisioning over CAN, C firmware writing 8-bit chunks to EEPROM on TI and STM32 boards.</li>
+        <li><strong>Controller debugging</strong> — validated C firmware upgrades, debugged motor controllers for the CPKC hydrogen locomotive program.</li>
+        <li><strong>Python test scripting</strong> — breadboarded HDLC alternatives, validated air-brake simulator serial data.</li>
+        <li><strong>Sensors and actuators</strong> — IMU telemetry with PID control on an ESP32, tuned to eliminate oscillation.</li>
+        <li><strong>Subsystem validation</strong> — directed a four-person team validating electrical subsystems, wiring, battery PCBs, BMS telemetry. Did not reach vehicle-level integration.</li>
+        <li><strong>Release automation</strong> — team's first full GitLab CI/CD pipeline for NVision IV.</li>
+      </ul>
+      <div class="flag forbid">
+        <span class="flag-t">Honest edges</span>
+        <ul>
+          <li>No direct Simulink plant-model integration</li>
+          <li>No FMI/FMU, SSP, or AUTOSAR</li>
+          <li>No Jenkins, ETAS INCA, LIN, SPI, or automotive Ethernet</li>
+          <li>MATLAB is a listed skill, but production plant-model development is not established</li>
+          <li>The fixture work involved physical boards, not a virtual controller model</li>
+        </ul>
+      </div>
+      <h3>If the call goes deeper than expected</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">Proposed approach, not past experience</span>
+      </div>
+      <blockquote class="say">
+        <p>"I would start from the test requirement and identify the controller, plant, sensor, actuator, communication, and timing assets needed for the scenario. I would make interface assumptions explicit, establish known inputs and expected outputs, and build repeatable tests around nominal, boundary, and failure behavior. I would also version the assets and parameters with the release, automate the build and test path where practical, and keep enough logging to reproduce a failure. That is the reasoning I would bring while learning GM's specific model and standards stack."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">05</span><span class="sec-t">The three risks</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>Same pattern each time: <strong>acknowledge the boundary, give the nearest evidence, state the closing plan.</strong> Never volunteer these unprompted.</p>
+
+      <h3>Seniority and tenure</h3>
+      <blockquote class="say">
+        <p>"I have roughly one year of professional embedded software experience, so I would not present myself as having three to seven years. The reason I still see a fit is the scope I handled: production HMI and firmware work, controller-board test tooling, motor-controller debugging, the team's first full GitLab pipeline, and leadership of a four-person university subsystem-validation team. My plan is to earn trust through a bounded integration area, deliver it with clear tests and documentation, and use direct review against the team's senior expectations."</p>
+      </blockquote>
+
+      <h3>Simulink, FMI, AUTOSAR</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">The learning sequence is proposed, not carried out</span>
+      </div>
+      <blockquote class="say">
+        <p>"I have not used Simulink, FMI, or AUTOSAR directly. My nearest experience is MATLAB, embedded C, CAN, sensor and actuator work, PID control, controller validation, and integration across Rust, C++, firmware, telemetry, and physical I/O. I would start with one existing GM model and test scenario, trace its interfaces and expected behavior, reproduce a known result, then make a small reviewed change before taking on a broader integration."</p>
+      </blockquote>
+
+      <h3>Calgary to Markham</h3>
+      <div class="flag reasoned">
+        <span class="flag-t">Openness confirmed, specifics are not</span>
+        Timing, costs, and personal arrangements have not been established. Do not invent them.
+      </div>
+      <blockquote class="say">
+        <p>"I am currently in Calgary and I am open to relocating to the Toronto area. I understand the role is hybrid in Markham with at least three office days per week. I would first confirm the expected start date and team office pattern, then align a relocation plan to those requirements. I do not want to invent a timeline before I understand what the team needs."</p>
+      </blockquote>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">06</span><span class="sec-t">Compensation</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag proof">
+        <span class="flag-t">On the record</span>
+        You stated <strong>$115,000–$125,000 CAD</strong> in the application. GM's posted base band is <strong>$115,000–$164,600 CAD</strong>.
+      </div>
+      <blockquote class="say">
+        <p>"I stated $115,000 to $125,000 CAD in my application, and that remains my range. I understand GM's posted base range is $115,000 to $164,600 CAD, and I am comfortable continuing with the range I already provided."</p>
+      </blockquote>
+      <p>If pressed for a lower number:</p>
+      <blockquote class="say">
+        <p>"I would like to stay consistent with the $115,000 to $125,000 CAD range already provided."</p>
+      </blockquote>
+      <div class="flag forbid">
+        <span class="flag-t">Do not</span>
+        Raise the range mid-process · renegotiate now · volunteer a lower floor · replace it with your broader profile target.
+      </div>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">07</span><span class="sec-t">Stories</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag reasoned">
+        <span class="flag-t">Reflections are interview takeaways</span>
+        Reasoned from verified events, not separately documented historical claims.
+      </div>
+
+      <h3>1 · Locomotive control-board test fixture</h3>
+      <ul>
+        <li><strong>S</strong> — An existing bed-of-nails fixture ran tests on locomotive control PCBs.</li>
+        <li><strong>T</strong> — Improve operator-facing software, remove a UI-blocking defect, expose progress, preserve evidence, make provisioning repeatable.</li>
+        <li><strong>A</strong> — Rebuilt front end in Qt/QML and C++; fixed targeted Rust backend bugs; added live status; logged per-board I/O to CSV; added CAN provisioning through C firmware.</li>
+        <li><strong>R</strong> — EEPROM provisioning saved 30 minutes of manual entry per board.</li>
+        <li><strong>SIL angle</strong> — Repeatable controller and I/O validation, while clearly separating physical-fixture work from virtual simulation.</li>
+      </ul>
+
+      <h3>2 · NVision IV CI/CD and HMI integration</h3>
+      <ul>
+        <li><strong>S</strong> — No full GitLab CI/CD pipeline existed for NVision IV.</li>
+        <li><strong>T</strong> — Create a repeatable build and release path for the HMI on Windows 11 IoT.</li>
+        <li><strong>A</strong> — Built the team's first full pipeline and integrated it into the release workflow. HMI used Qt/QML, Rust, C++, with telemetry and logging kept off the UI thread.</li>
+        <li><strong>R</strong> — Team adopted it; deployment time fell 30%, measured. HMI replaced custom displays, saving $2,000 per unit.</li>
+        <li><strong>SIL angle</strong> — Release ownership and cross-language interface work.</li>
+      </ul>
+
+      <h3>3 · HDLC serial validation</h3>
+      <ul>
+        <li><strong>S</strong> — Cheaper HDLC alternatives needed validating against air-brake simulator serial data.</li>
+        <li><strong>T</strong> — Determine whether each alternative received the required data.</li>
+        <li><strong>A</strong> — Breadboarded the alternatives, wrote focused Python validation scripts.</li>
+        <li><strong>R</strong> — Supported an alternative saving $3,000 per module.</li>
+        <li><strong>SIL angle</strong> — Pragmatic Python test tooling and interface validation around simulated input data.</li>
+      </ul>
+
+      <h3>4 · Re-Electric subsystem validation</h3>
+      <ul>
+        <li><strong>S</strong> — A university EV conversion project with a four-person testing and integration team.</li>
+        <li><strong>T</strong> — Direct the team in validating electrical subsystems in scope.</li>
+        <li><strong>A</strong> — Designed AutoCAD wiring diagrams, routed harnesses, validated Tesla battery PCBs with multimeters for BMS telemetry.</li>
+        <li><strong>R</strong> — Subsystems validated. The project did not reach a working vehicle.</li>
+        <li><strong>SIL angle</strong> — Team direction, subsystem interfaces, instrumentation, telemetry validation, honest test boundaries.</li>
+      </ul>
+
+      <h3>Backup · CPKC crossing-data automation</h3>
+      <ul>
+        <li><strong>S</strong> — Crossing data had to be extracted, synchronised, and uploaded across web applications.</li>
+        <li><strong>T</strong> — Make it repeatable and reduce dependence on external consulting.</li>
+        <li><strong>A</strong> — Built a Python pipeline with Selenium and ArcGIS REST APIs.</li>
+        <li><strong>R</strong> — Avoided a measured $100,000 in consulting fees.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">08</span><span class="sec-t">Questions to ask</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <p>Ask two or three, based on what's already been covered.</p>
+      <h3>For this screen</h3>
+      <ol>
+        <li>"What are the remaining interview stages, and what should I expect each stage to evaluate?"</li>
+        <li>"How is the three-day Markham office schedule applied by this team, and what relocation timing would the process expect?"</li>
+        <li>"Is there anything in my background, especially the seniority or simulation-tool gaps, that I can clarify before we finish?"</li>
+      </ol>
+      <h3>Save for later rounds</h3>
+      <ol start="4">
+        <li>"What would make this hire successful in the first six months?"</li>
+        <li>"Which gap is most urgent today: model integration, simulation release quality, or support for simulation users?"</li>
+        <li>"How does the team divide ownership across virtual controller components, plant models, SIMBOM definition, integration, and release support?"</li>
+        <li>"What does the current build, test, and release path for a cosimulation environment look like, and where does it create the most friction?"</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="sec">
+    <summary><span class="sec-n">09</span><span class="sec-t">Do not say</span><span class="chev">›</span></summary>
+    <div class="sec-body">
+      <div class="flag forbid">
+        <span class="flag-t">Never</span>
+        <ul>
+          <li>Inflate embedded tenure. Roughly one year, then describe the scope delivered.</li>
+          <li>Claim Simulink plant-model integration, FMI/FMU, SSP, AUTOSAR, Jenkins, ETAS INCA, LIN, SPI, or automotive Ethernet.</li>
+          <li>Describe the physical fixture as a SIL environment or documented HIL platform.</li>
+          <li>Say you built the bed-of-nails fixture, or authored its Rust backend or YAML test cases.</li>
+          <li>Say Re-Electric completed a vehicle conversion or reached vehicle-level integration.</li>
+          <li>Weaken the accurate title "Testing and Integration Team Lead".</li>
+          <li>Claim a measured UI-latency outcome. The supported fact: telemetry and logging stayed off the UI thread.</li>
+          <li>Blend the HMI's Rust telemetry crate with the fixture's separate Rust backend.</li>
+          <li>Imply you authored the open-source job-search pipeline. You deployed, extended, and operate it.</li>
+          <li>Understate the NVision IV pipeline — first full GitLab pipeline, adopted by the team, 30% measured.</li>
+          <li>Turn the $100,000 CPKC or $2,000-per-unit savings into estimates. Both are measured.</li>
+          <li>Present Mark's recruiter role as stated in the invite. It is a high-confidence inference.</li>
+          <li>Gendered language for Mark Pelka. They/them.</li>
+          <li>Invent relocation timing, costs, or personal circumstances.</li>
+          <li>Move off the $115,000–$125,000 CAD range already stated.</li>
+          <li>Apologise for the gaps. Boundary, transferable evidence, plan.</li>
+        </ul>
+      </div>
+      <div class="flag proof">
+        <span class="flag-t">Verified, safe to say</span>
+        You directed a four-person testing and integration team, which validated electrical subsystems only.
+      </div>
+    </div>
+  </details>
+</div>
+
+<div class="wrap">
+  <p class="foot">
+    Generated 10 Aug 2026 · sources: cv.md (corrected), story-bank.md, jd files, evaluation reports #739 and #338, GM's published Interview Preparation Toolkit<br>
+    Amber = reasoning, not experience. Red = do not say. Green = measured and verified.
+  </p>
+</div>
+
+<script>
+  (function () {
+    var tabs = [
+      { btn: document.getElementById('tab-mag'), pane: document.getElementById('pane-mag'), at: Date.parse('2026-08-12T17:00:00Z'), label: 'Magnet' },
+      { btn: document.getElementById('tab-gm'),  pane: document.getElementById('pane-gm'),  at: Date.parse('2026-08-13T20:00:00Z'), label: 'GM' }
+    ];
+    var cd = document.getElementById('cd');
+    var active = 0;
+
+    function select(i) {
+      active = i;
+      tabs.forEach(function (t, n) {
+        t.btn.setAttribute('aria-selected', n === i ? 'true' : 'false');
+        t.pane.hidden = n !== i;
+      });
+      window.scrollTo(0, 0);
+      tick();
+    }
+
+    tabs.forEach(function (t, i) {
+      t.btn.addEventListener('click', function () { select(i); });
+    });
+
+    function tick() {
+      var t = tabs[active];
+      var ms = t.at - Date.now();
+      if (ms <= 0) {
+        var over = -ms < 3600000 * 3;
+        cd.innerHTML = over ? '<b>In progress</b>' : '<b>Complete</b>';
+        return;
+      }
+      var mins = Math.floor(ms / 60000);
+      var d = Math.floor(mins / 1440);
+      var h = Math.floor((mins % 1440) / 60);
+      var m = mins % 60;
+      var parts = [];
+      if (d) parts.push(d + 'd');
+      parts.push(h + 'h');
+      parts.push(m + 'm');
+      cd.innerHTML = t.label + ' in <b>' + parts.join(' ') + '</b>';
+    }
+
+    tick();
+    setInterval(tick, 30000);
+  })();
+</script>
+
+</body></html>

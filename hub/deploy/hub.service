@@ -1,0 +1,25 @@
+[Unit]
+Description=career-ops hub
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=career
+WorkingDirectory=/opt/career-ops
+EnvironmentFile=/etc/career-ops/hub.env
+ExecStart=/usr/bin/node hub/server.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+# AI CLI workers need read access to home-directory authentication config.
+ProtectHome=read-only
+ReadWritePaths=/opt/career-ops
+PrivateTmp=true
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target
