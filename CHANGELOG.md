@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.24.0](https://github.com/wajahathussain81/career-ops/compare/career-ops-v1.23.0...career-ops-v1.24.0) (2026-08-18)
+
+
+### Features
+
+* **contacts:** company-history.mjs, employer silence and repost facts ([#1712](https://github.com/wajahathussain81/career-ops/issues/1712)) ([af21577](https://github.com/wajahathussain81/career-ops/commit/af2157747b730284e97c99936f2d15d3fa2977f9)), closes [#1711](https://github.com/wajahathussain81/career-ops/issues/1711)
+* **contacts:** job-search phonebook with vCard export ([#1719](https://github.com/wajahathussain81/career-ops/issues/1719)) ([8bba0ee](https://github.com/wajahathussain81/career-ops/commit/8bba0ee59b2cb584ab06d9379a6a02e537841508))
+* **doctor:** CLI-aware Playwright MCP detection + OpenCode config support ([#2247](https://github.com/wajahathussain81/career-ops/issues/2247)) ([960d00b](https://github.com/wajahathussain81/career-ops/commit/960d00b3a45a8213db9e7279727d9422887329a6))
+* **interview:** debrief directly from an existing transcript ([#2122](https://github.com/wajahathussain81/career-ops/issues/2122)) ([5cb7f0a](https://github.com/wajahathussain81/career-ops/commit/5cb7f0af9c6709505c1b85c0641f46825bc8d02b))
+* **ledger:** set-status transition log + mode wiring ([#1695](https://github.com/wajahathussain81/career-ops/issues/1695)) ([2af59e6](https://github.com/wajahathussain81/career-ops/commit/2af59e6e2f3b734fd7487b8fca62790671c9bb5a))
+* **offer-prep:** jurisdiction-aware restrictive-covenant notes ([#2029](https://github.com/wajahathussain81/career-ops/issues/2029)) ([6eb7778](https://github.com/wajahathussain81/career-ops/commit/6eb7778b68dad59990694f32e86c9527fd222343))
+* **outcome:** outcome recording and application archiving, phase 1 ([#2248](https://github.com/wajahathussain81/career-ops/issues/2248)) ([6d60073](https://github.com/wajahathussain81/career-ops/commit/6d600736ca316182283d3c669d9b4c77f91d0964))
+* **providers:** a16z speedrun talent network board-wide feed ([#2231](https://github.com/wajahathussain81/career-ops/issues/2231)) ([1b785a9](https://github.com/wajahathussain81/career-ops/commit/1b785a93e2082830ea1d73eb1328cb05c93644bd))
+* **providers:** add iCIMS to the reverse-ATS full sweep ([#2141](https://github.com/wajahathussain81/career-ops/issues/2141)) ([b9cd65e](https://github.com/wajahathussain81/career-ops/commit/b9cd65e8ddba9448c9590c25f45288cf61c1c1c7)), closes [#2137](https://github.com/wajahathussain81/career-ops/issues/2137)
+* **scan-history:** additive normalized-company column for reliable repost keying ([#2243](https://github.com/wajahathussain81/career-ops/issues/2243)) ([a4575a6](https://github.com/wajahathussain81/career-ops/commit/a4575a64a550608ecca3386851f6ad76aa592205))
+* **scan:** country-eligibility filter for remote postings ([#2095](https://github.com/wajahathussain81/career-ops/issues/2095)) ([79ba55d](https://github.com/wajahathussain81/career-ops/commit/79ba55d7f66863eb6e7e8ce213fb8dd98b30de49)), closes [#2093](https://github.com/wajahathussain81/career-ops/issues/2093)
+* **scan:** negative-cache resolver refusals and stop the sweep on a resolver outage ([#2266](https://github.com/wajahathussain81/career-ops/issues/2266)) ([ebaed15](https://github.com/wajahathussain81/career-ops/commit/ebaed15abd5d445bb86ae6e8988abc816cc9b9b2))
+* **test:** seed-fixture.mjs + era-appropriate install fixtures ([#2032](https://github.com/wajahathussain81/career-ops/issues/2032)) ([0c5d146](https://github.com/wajahathussain81/career-ops/commit/0c5d1469e865c0a1720b8e0002469e8a05f874c2))
+* **triage:** standalone two-pass triage mode to cut evaluation tokens ([#1550](https://github.com/wajahathussain81/career-ops/issues/1550)) ([7f281d8](https://github.com/wajahathussain81/career-ops/commit/7f281d829676fadadd7a934376469fea26394f16))
+
+
+### Bug Fixes
+
+* **analyze-patterns:** use symbol-safe lookarounds so C++, C# and .NET stop vanishing from tech gaps ([#2227](https://github.com/wajahathussain81/career-ops/issues/2227)) ([85cb018](https://github.com/wajahathussain81/career-ops/commit/85cb018a4c5ec06a806384e965b77e2374bace6b))
+* **cover:** prevent double comma in achievement bullets ([#2254](https://github.com/wajahathussain81/career-ops/issues/2254)) ([31ddafb](https://github.com/wajahathussain81/career-ops/commit/31ddafb5c52d3ef368469046011a6d3cadc48358))
+* **dashboard:** stop reading funding and valuation figures as Pay ([#2139](https://github.com/wajahathussain81/career-ops/issues/2139)) ([581374f](https://github.com/wajahathussain81/career-ops/commit/581374f25ca971d7b8161ca94d34fc9de9236cd5))
+* **jd-skill-gap:** canonicalize CV and JD tokens through skill-extract ([#2226](https://github.com/wajahathussain81/career-ops/issues/2226)) ([dbaa761](https://github.com/wajahathussain81/career-ops/commit/dbaa761d10abaf34e52684e04fb996a0625e70fc))
+* **merge-tracker:** stop sibling-req clobber when the qualifier is a slashed acronym ([#2166](https://github.com/wajahathussain81/career-ops/issues/2166)) ([4910e73](https://github.com/wajahathussain81/career-ops/commit/4910e7398fb16442357db6a1cbe055afb1c28652))
+* **role-matcher:** fold accented Latin letters before tokenizing role titles ([#2209](https://github.com/wajahathussain81/career-ops/issues/2209)) ([830fe51](https://github.com/wajahathussain81/career-ops/commit/830fe511d04dce244b1ea20941a94b26a9d38d97)), closes [#2207](https://github.com/wajahathussain81/career-ops/issues/2207)
+* **scaffolder:** materialize the Kimi skill entrypoint on symlink-less filesystems ([#2259](https://github.com/wajahathussain81/career-ops/issues/2259)) ([06da05c](https://github.com/wajahathussain81/career-ops/commit/06da05c67283ce2c18c4c52e25ea7aee2d89d5ea))
+* **scan:** ignore StepStone's volatile rltr param when deduping posting URLs ([#1982](https://github.com/wajahathussain81/career-ops/issues/1982)) ([b1ae044](https://github.com/wajahathussain81/career-ops/commit/b1ae0443d8eec1a1468cc603dc36c3f7e1344fe4))
+* **scan:** record auth, server and unknown fetch errors in portal-health instead of reachable ([#2236](https://github.com/wajahathussain81/career-ops/issues/2236)) ([2328f46](https://github.com/wajahathussain81/career-ops/commit/2328f469ce6575d1582964f35e6265216e045ff6))
+* **test:** accept a materialized skill entrypoint, not just a symlink ([#2273](https://github.com/wajahathussain81/career-ops/issues/2273)) ([741fadf](https://github.com/wajahathussain81/career-ops/commit/741fadf65e1810645e816fa83d6ffa40ea645e6f))
+* **tracker:** a data row containing --- is invisible to merge-tracker dedup ([#2267](https://github.com/wajahathussain81/career-ops/issues/2267)) ([2333a0f](https://github.com/wajahathussain81/career-ops/commit/2333a0fa4221111d975cd0a2d51d498f853f6d1c))
+* **web:** add Hired to the states.ts FALLBACK so the degraded path accepts it ([#2282](https://github.com/wajahathussain81/career-ops/issues/2282)) ([fd112c9](https://github.com/wajahathussain81/career-ops/commit/fd112c972d23cf0028e0411f36f67b1adf5520db))
+* **web:** propagate the Hired terminal-success state across the whole dashboard ([#2250](https://github.com/wajahathussain81/career-ops/issues/2250)) ([29503dc](https://github.com/wajahathussain81/career-ops/commit/29503dca07c4f1725675299db48685565f159acb))
+
 ## [1.23.0](https://github.com/santifer/career-ops/compare/career-ops-v1.22.0...career-ops-v1.23.0) (2026-07-28)
 
 

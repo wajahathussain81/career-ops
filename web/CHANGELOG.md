@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/wajahathussain81/career-ops/compare/web-v0.4.0...web-v0.4.1) (2026-08-18)
+
+
+### Bug Fixes
+
+* **web:** add Hired to the states.ts FALLBACK so the degraded path accepts it ([#2282](https://github.com/wajahathussain81/career-ops/issues/2282)) ([fd112c9](https://github.com/wajahathussain81/career-ops/commit/fd112c972d23cf0028e0411f36f67b1adf5520db))
+* **web:** propagate the Hired terminal-success state across the whole dashboard ([#2250](https://github.com/wajahathussain81/career-ops/issues/2250)) ([29503dc](https://github.com/wajahathussain81/career-ops/commit/29503dca07c4f1725675299db48685565f159acb))
+
 ## [0.4.0](https://github.com/santifer/career-ops/compare/web-v0.3.0...web-v0.4.0) (2026-07-28)
 
 
